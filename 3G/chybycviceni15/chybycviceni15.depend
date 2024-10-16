@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1675240611 source:r:\cprojekty\chybycviceni15\main.c
+	<stdio.h>
+	<string.h>
+

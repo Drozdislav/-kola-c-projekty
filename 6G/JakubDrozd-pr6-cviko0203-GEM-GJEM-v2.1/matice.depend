@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1728381132 source:r:\cprojekty\6g\jakubdrozd-pr6-cviko0203-gem-gjem-v2.1\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1728381132 r:\cprojekty\6g\jakubdrozd-pr6-cviko0203-gem-gjem-v2.1\matice.h
+	<stdio.h>
+
+1728382957 source:r:\cprojekty\6g\jakubdrozd-pr6-cviko0203-gem-gjem-v2.1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1728381132 r:\cprojekty\6g\jakubdrozd-pr6-cviko0203-gem-gjem-v2.1\gvid.h
+

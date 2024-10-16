@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1726571671 source:r:\cprojekty\6g\matice\main.c
+	"mojematice.h"
+	"gvid.h"
+	<stdio.h>
+	<stdlib.h>
+
+1593626002 r:\cprojekty\6g\matice\gvid.h
+
+1726572054 source:r:\cprojekty\6g\matice\mojematice.c
+	"mojematice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1726571936 r:\cprojekty\6g\matice\mojematice.h
+	<stdio.h>
+

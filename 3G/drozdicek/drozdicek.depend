@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1634114237 source:r:\c projekty\drozdicek\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1634115931 source:r:\cprojekty\drozdicek\main.c
+	<stdio.h>
+	<stdlib.h>
+

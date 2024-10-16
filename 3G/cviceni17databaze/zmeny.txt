@@ -1,0 +1,13 @@
+1 Pavel Novacek 25 studentka Ceska_republika 5000 0
+10 Kacer Donald 73 prezident USA 666666 0
+13 Andrejka Babuska 72 tunelar Cesko 230000 0
+18 * * 0 * * 0 -1
+0 Amalie Rohata 24 pekelnice Brno-Cejl 26000 1
+19 Charles Manik 38 fanatik Kalifornie 120 0
+22 Alzak Zeleny 19 maskot Mars 1234 0
+1 Pavla Novackova 26 studentka Ceska_republika 4500 0
+10 Kacer Donald 73 trumpetista USA 666666 0
+17 Jenda Honzik 25 tunelar Ceska_republika 360000 0
+9 Prejt Koranteng 52 moderator Praha 56000 0
+5 * * 0 * * 0 -1
+0 Rosta Trubac 26 mafian Ceska_republika 33000 1

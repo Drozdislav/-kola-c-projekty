@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1727776305 source:r:\cprojekty\6g\drozdjakub-pr6-cviko00-cteni-psani\kacerdonald-pr6-cviko00-cteni-psani\vektor.c
+	"vektor.h"
+	<stdlib.h>
+
+1727776305 r:\cprojekty\6g\drozdjakub-pr6-cviko00-cteni-psani\kacerdonald-pr6-cviko00-cteni-psani\vektor.h
+	<stdio.h>
+	"gvid.h"
+
+1727776305 r:\cprojekty\6g\drozdjakub-pr6-cviko00-cteni-psani\kacerdonald-pr6-cviko00-cteni-psani\gvid.h
+

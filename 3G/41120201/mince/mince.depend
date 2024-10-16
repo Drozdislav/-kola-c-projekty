@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1635935551 source:r:\cprojekty\41120201\mince\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+

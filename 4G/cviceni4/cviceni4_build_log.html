@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>cviceni4 build log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+<tt>
+Build started on: <u>05-10-2022 at 09:39.59</u><br />
+Build ended on: <u>05-10-2022 at 09:39.59</u><p />
+<b>-------------- Build: Debug in cviceni4 (compiler: GNU GCC Compiler)---------------</b><br />
+gcc.exe -Wall -g  -c R:\cprojekty\4G\cviceni4\main.c -o obj\Debug\main.o<br />
+R:\cprojekty\4G\cviceni4\main.c: In function 'main':<br />
+<font color="#ff0000">R:\cprojekty\4G\cviceni4\main.c:37:43: error: expected ';' before 'if'</font><br />
+     if(osoba.plat &lt;= min.plat) min = osoba<br />
+                                           ^<br />
+                                           ;<br />
+     if(osoba.plat &gt;= max.plat) max = osoba<br />
+     ~~                                     <br />
+<font color="#ff0000">R:\cprojekty\4G\cviceni4\main.c:43:21: error: expected ')' before 'max'</font><br />
+   printf("max: %20s" max.jmeno);<br />
+                     ^~~~<br />
+                     )<br />
+<font color="#0000ff">R:\cprojekty\4G\cviceni4\main.c:43:19: warning: format '%s' expects a matching 'char *' argument [-Wformat=]</font><br />
+   printf("max: %20s" max.jmeno);<br />
+                ~~~^<br />
+<font color="#0000ff">R:\cprojekty\4G\cviceni4\main.c:43:19: warning: format '%s' expects a matching 'char *' argument [-Wformat=]</font><br />
+<font color="#ff0000">R:\cprojekty\4G\cviceni4\main.c:44:21: error: expected ')' before 'min'</font><br />
+   printf("min: %20s" min.jmeno);<br />
+                     ^~~~<br />
+                     )<br />
+<font color="#0000ff">R:\cprojekty\4G\cviceni4\main.c:44:19: warning: format '%s' expects a matching 'char *' argument [-Wformat=]</font><br />
+   printf("min: %20s" min.jmeno);<br />
+                ~~~^<br />
+<font color="#0000ff">R:\cprojekty\4G\cviceni4\main.c:44:19: warning: format '%s' expects a matching 'char *' argument [-Wformat=]</font><br />
+<font color="#ff0000">R:\cprojekty\4G\cviceni4\main.c:47:1: error: expected declaration or statement at end of input</font><br />
+ }<br />
+ ^<br />
+<font color="#ff0000">R:\cprojekty\4G\cviceni4\main.c:47:1: error: expected declaration or statement at end of input</font><br />
+<font color="#0000ff">R:\cprojekty\4G\cviceni4\main.c:14:15: warning: variable 'max' set but not used [-Wunused-but-set-variable]</font><br />
+   struct bozo max;<br />
+               ^~~<br />
+<font color="#a00000">Process terminated with status 1 (0 minute(s), 0 second(s))</font><br />
+<font color="#a00000">5 error(s), 5 warning(s) (0 minute(s), 0 second(s))</font><br />
+</tt>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1676449156 source:r:\cprojekty\cviceni17databaze\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+

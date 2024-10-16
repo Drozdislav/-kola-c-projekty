@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1680072257 source:r:\cprojekty\rocnikovyprojekt\main.c
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

@@ -1,0 +1,2 @@
+1                Pavla            Novackova 26            studentka      Ceska_republika 4500
+2                Rosta               Trubac 26               mafian      Ceska_republika 33000
