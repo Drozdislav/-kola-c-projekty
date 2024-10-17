@@ -21,3 +21,25 @@
 
 1728381132 r:\cprojekty\6g\jakubdrozd-pr6-cviko0203-gem-gjem-v2.1\gvid.h
 
+1729156658 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\iteracnimetody\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1729156658 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\iteracnimetody\matice.h
+	<stdio.h>
+
+1729157532 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\iteracnimetody\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1729156658 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\iteracnimetody\gvid.h
+

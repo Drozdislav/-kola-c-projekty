@@ -529,6 +529,17 @@ for(int i = 0; i<m->sloupcu-1;i++)
 return true;
 }
 
+void upravaMatice(Tmatice *m)
+{
+    for(int i = 0; i<m->radku; i++)
+    {
+        for(int j = 0; j<m->sloupcu; j++)
+        {
+            m->prvek[i][j] = m->prvek[i][j] / m->prvek[i][i];
+        }
+        m->prvek[i][i] = 0;
+    }
+}
 
 
 
