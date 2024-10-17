@@ -1,7 +1,7 @@
 /* Téma matice a moduly - varianta s polem pevných rozměrů
  *
- * Autor: Podepiš se
- * Datum: today (+ Ctrl+J)
+ * Autor: Drozd Jakub
+ * Datum: today
  *
  * Verze: 2.1
  * Errata:
@@ -199,7 +199,46 @@ void testMult(void)
  */
 int maxAbsPivot(Tmatice *m, int r)
 {
-  // TODO: naprogramuj ji
+    int maxRow = r; // Začneme od referenčního řádku
+    double maxVal = fabs(m->prvek[r][r]); // Absolutní hodnota na diagonále
+
+    for (int i = r + 1; i < m->radku; i++) {
+        double val = fabs(m->prvek[i][r]);
+        if (val > maxVal) {
+            maxVal = val;
+            maxRow = i;
+        }
+    }
+
+    return maxRow; // Vrátíme index řádku s maximálním pivotem
+}
+
+void vymenaRadku(Tmatice *m, int k, int r)
+{
+    float pomocna = 0;
+
+    for(int i=0; i < m->sloupcu; i++)
+    {
+        pomocna = m->prvek[k][i];
+        m->prvek[k][i] = m->prvek[r][i];
+        m->prvek[r][i] = pomocna;
+    }
+}
+
+void radkoveUpravy(Tmatice *m, int r)
+{
+    float c = 0;
+
+    for(int k=r+1; k<m->sloupcu; k++)
+    {
+        c = m->prvek[k][r] / m->prvek[r][r];
+        m->prvekf[k][r] = 0.0;
+
+        for(int s = r+1; s<m->sloupcu; s++)
+        {
+            m->prvek[k][s] = c * m->prvek[r][s] - m->prvek[k][s];
+        }
+    }
 }
 
 /** \brief Testuje, zda je zadaná soustava ve tvaru horní trojúhelníkové matice.
@@ -227,9 +266,26 @@ bool jeHorni(Tmatice *m)
  */
 int gemPrimy(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  printf("Funkce gemPrimy neni hotova.");
+    int k = 0;
+    for(r=0; r < m->radku-1; i++)
+    {
+        int k = maxAbsPivot(m,r);
+        if(m->prvek[k][r] == 0)
+        {
+            printf("CHYBA! Pivot se rovná nule")
+            return -1;
+        }
+        if(k != r)
+        {
+            vymenaRadku(m,k,r);
+            radkoveUpravy(m,r);
+        }
+    }
+    return 0;
 }
+
+
+
 
 /** \brief Provede přímý chod GJEM.
  *
@@ -263,6 +319,8 @@ void testPrimehoChodu(char *jmenoSouboru)
   // TODO: naprogramuj ji
   printf("Funkce testPrimehoChodu neni hotova.\n");
   printf("==========================================\n");
+
+  FILE*f = fopen
 }
 
 
