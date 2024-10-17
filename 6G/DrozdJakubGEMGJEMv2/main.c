@@ -232,7 +232,7 @@ void radkoveUpravy(Tmatice *m, int r)
     for(int k=r+1; k<m->sloupcu; k++)
     {
         c = m->prvek[k][r] / m->prvek[r][r];
-        m->prvekf[k][r] = 0.0;
+        m->prvek[k][r] = 0.0;
 
         for(int s = r+1; s<m->sloupcu; s++)
         {
@@ -267,12 +267,12 @@ bool jeHorni(Tmatice *m)
 int gemPrimy(Tmatice *m)
 {
     int k = 0;
-    for(r=0; r < m->radku-1; i++)
+    for(int r=0; r < m->radku-1; r++)
     {
         int k = maxAbsPivot(m,r);
         if(m->prvek[k][r] == 0)
         {
-            printf("CHYBA! Pivot se rovná nule")
+            printf("CHYBA! Pivot se rovná nule");
             return -1;
         }
         if(k != r)
@@ -317,10 +317,24 @@ void testPrimehoChodu(char *jmenoSouboru)
 {
   printf("==========================================\n");
   // TODO: naprogramuj ji
-  printf("Funkce testPrimehoChodu neni hotova.\n");
+  printf("Funkce testPrimehoChodu\n");
   printf("==========================================\n");
 
-  FILE*f = fopen
+  int s = 0;
+  int r = 0;
+
+  FILE*f = fopen(jmenoSouboru, "r");
+  if(f == NULL)
+  {
+      printf("CHYBA! Subor se nepodarilo otevrit");
+      return -1;
+  }
+  fscanf(f,"%d %d", &r,&s);
+  maticeAlokuj(r,s);
+  Tmatice*m = maticeCtiZeSouboru(f);
+  gemPrimy(m);
+  maticeTiskni(m);
+  maticeUvolni(m);
 }
 
 
@@ -456,7 +470,7 @@ int main(void)
   testMult();
 
   testPrimehoChodu("B.txt");          // otestuj i jiné soubory
-  testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
-  testZpetnyChod("E.txt");            // otestuj i jiné soubory
+  //testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
+  //testZpetnyChod("E.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }

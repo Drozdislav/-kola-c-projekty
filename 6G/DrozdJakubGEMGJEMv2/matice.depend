@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1729158216 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\drozdjakubgemgjemv2\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1729158217 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\drozdjakubgemgjemv2\matice.h
+	<stdio.h>
+
