@@ -229,7 +229,7 @@ void radkoveUpravy(Tmatice *m, int r)
 {
     float c = 0;
 
-    for(int k=r+1; k<m->sloupcu; k++)
+    for(int k=r+1; k<m->sloupcu-1; k++)
     {
         c = m->prvek[k][r] / m->prvek[r][r];
         m->prvek[k][r] = 0.0;
@@ -343,6 +343,13 @@ void testPrimehoChodu(char *jmenoSouboru)
   gemPrimy(m);
   maticeTiskni(m);
 
+  /*
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM Primy chod:\n");
+  gemPrimy(duplikat);
+  maticeTiskni(duplikat);
+  */
+
   // Uvolnění paměti
   maticeUvolni(m);
   maticeUvolni(duplikat);
@@ -419,11 +426,24 @@ void testMaticePoPrimemChodu(char *jmenoSouboru)
  *
  * \param m Tmatice* Ukazatel na rozšířenou matici soustavy.
  */
+
+
 void gemZpetny(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  printf("Funkce gemZpetny neni hotova.");
+    float suma = 0.0;
+
+    for(int r = m->sloupcu-1; r>0; r--)
+    {
+        suma = 0.0;
+
+        for(int s = r+1; s<m->sloupcu-1; s++)
+        {
+            suma = suma + m->prvek[r][s] * m->prvek[s][m->sloupcu];
+        }
+        m->prvek[r][m->sloupcu] = (m->prvek[r][m->sloupcu] - suma) / m->prvek[r][r];
+    }
 }
+
 
 /** \brief Provede zpětný chod GJEM.
  *
@@ -463,8 +483,45 @@ void tiskReseni(Tmatice *m)
 void testZpetnyChod(char *jmenoSouboru)
 {
   printf("==========================================\n");
-  // TODO: naprogramuj ji
-  printf("Funkce testZpetnyChod neni hotova.\n");
+  printf("Funkce testZpetnyChod\n");
+
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Vytvoření duplikátu
+  Tmatice *duplikat = maticeDuplikat(m);
+  if (duplikat == NULL) {
+      printf("CHYBA! Nepodařilo se vytvořit duplikát matice\n");
+      maticeUvolni(m);
+      return;
+  }
+
+  // Provedení přímého chodu GEM na původní matici
+  printf("GEM Zpetny chod:\n");
+  gemZpetny(m);
+  maticeTiskni(m);
+
+  /*
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM Primy chod:\n");
+  gemPrimy(duplikat);
+  maticeTiskni(duplikat);
+  */
+
+  // Uvolnění paměti
+  maticeUvolni(m);
+  maticeUvolni(duplikat);
+
   printf("==========================================\n");
 }
 
@@ -485,6 +542,6 @@ int main(void)
 
   testPrimehoChodu("B.txt");          // otestuj i jiné soubory
   //testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
-  //testZpetnyChod("E.txt");            // otestuj i jiné soubory
+  testZpetnyChod("E.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }
