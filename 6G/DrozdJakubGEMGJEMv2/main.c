@@ -316,26 +316,40 @@ void gjemPrimy(Tmatice *m)
 void testPrimehoChodu(char *jmenoSouboru)
 {
   printf("==========================================\n");
-  // TODO: naprogramuj ji
-  printf("Funkce testPrimehoChodu\n");
-  printf("==========================================\n");
-
-  int s = 0;
-  int r = 0;
-
-  FILE*f = fopen(jmenoSouboru, "r");
-  if(f == NULL)
-  {
-      printf("CHYBA! Subor se nepodarilo otevrit");
-      return -1;
+  // Načítání matice ze souboru
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return;
   }
-  fscanf(f,"%d %d", &r,&s);
-  maticeAlokuj(r,s);
-  Tmatice*m = maticeCtiZeSouboru(f);
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Vytvoření duplikátu
+  Tmatice *duplikat = maticeDuplikat(m);
+  if (duplikat == NULL) {
+      printf("CHYBA! Nepodařilo se vytvořit duplikát matice\n");
+      maticeUvolni(m);
+      return;
+  }
+
+  // Provedení přímého chodu GEM na původní matici
+  printf("GEM Primy chod:\n");
   gemPrimy(m);
   maticeTiskni(m);
+
+  // Uvolnění paměti
   maticeUvolni(m);
+  maticeUvolni(duplikat);
+
+  printf("==========================================\n");
 }
+
 
 
 
