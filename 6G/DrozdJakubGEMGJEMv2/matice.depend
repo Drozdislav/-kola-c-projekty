@@ -15,3 +15,17 @@
 1729187625 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\drozdjakubgemgjemv2\matice.h
 	<stdio.h>
 
+1729241492 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\drozdjakubgemgjemv2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1729158216 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\drozdjakubgemgjemv2\gvid.h
+

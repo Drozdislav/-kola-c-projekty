@@ -249,7 +249,17 @@ void radkoveUpravy(Tmatice *m, int r)
  */
 bool jeHorni(Tmatice *m)
 {
-  // TODO: naprogramuj ji
+    for(int r=0; r<m->sloupcu; r++)
+    {
+        for(int s=0; s<m->sloupcu; s++)
+        {
+            if(r<s && (m->prvek[r][s] != 0))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /** \brief Provede přímý chod GEM.
@@ -299,8 +309,22 @@ int gemPrimy(Tmatice *m)
  */
 void gjemPrimy(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  printf("Funkce gjemPrimy neni hotova.");
+  int k = 0;
+    for(int r=0; r < m->radku-1; r++)
+    {
+        int k = maxAbsPivot(m,r);
+        if(m->prvek[k][r] == 0)
+        {
+            printf("CHYBA! Pivot se rovná nule");
+            return -1;
+        }
+        if(k != r)
+        {
+            vymenaRadku(m,k,r);
+            radkoveUpravy(m,r);
+        }
+    }
+    return 0;
 }
 
 /** \brief Test přímého chodu, tj. operací gemPrimy a gjemPrimy.
@@ -508,8 +532,15 @@ void testZpetnyChod(char *jmenoSouboru)
 
   // Provedení přímého chodu GEM na původní matici
   printf("GEM Zpetny chod:\n");
-  gemZpetny(m);
-  maticeTiskni(m);
+      if(jeHorni == true)
+        {
+        gemZpetny(m);
+        tiskReseni(m);
+        }
+        else
+        {
+            printf("CHYBA! Matice zadana do zpetneho gem neni v hornim trojuhelnikovem tvaru");
+        }
 
   /*
   // Provedení přímého chodu GJEM na původní matici
@@ -542,6 +573,6 @@ int main(void)
 
   testPrimehoChodu("B.txt");          // otestuj i jiné soubory
   //testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
-  testZpetnyChod("E.txt");            // otestuj i jiné soubory
+  testZpetnyChod("B.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }
