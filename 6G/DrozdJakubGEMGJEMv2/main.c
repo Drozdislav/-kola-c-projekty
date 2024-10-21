@@ -401,8 +401,21 @@ void testPrimehoChodu(char *jmenoSouboru)
  */
 int gemPoPrimem(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  return false;
+  if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] == 0)
+  {
+      //nekonecne mnoho resení
+      return 0;
+  }
+  if(m->prvek[m->radku][m->sloupcu-1] != 0 && m->prvek[m->radku][m->sloupcu] != 0)
+  {
+      //jedno reseni
+      return 1;
+  }
+  if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] != 0)
+  {
+      //zadne reseni
+      return 0;
+  }
 }
 
 /** \brief Vrací počet řešení upravené soustavy po provedení přímého chodu GJEM.
