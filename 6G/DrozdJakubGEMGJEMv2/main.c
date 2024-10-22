@@ -268,13 +268,13 @@ void radkoveUpravyGJEM(Tmatice *m, int r)
  */
 bool jeHorni(Tmatice *m)
 {
-    for(int r=0; r<m->sloupcu; r++)
+    for(int r=0; r<m->sloupcu-1; r++)
     {
-        for(int s=0; s<m->sloupcu; s++)
+        for(int s=r+1; s<m->sloupcu-1; s++)
         {
-            if(r<s && (m->prvek[r][s] != 0))
+            if(r<s && (m->prvek[s][r] != 0.0))
             {
-                printf("\nCHYBA! Matice neni ve tvaru trojuhelnikove matice!\n");
+                printf("\nCHYBA! Matice neni ve tvaru trojuhelnikove matice!! [%d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
                 return false;
             }
         }
@@ -284,17 +284,17 @@ bool jeHorni(Tmatice *m)
 
 bool jeHorniGJEM(Tmatice *m)
 {
-    for(int r=0; r<m->sloupcu; r++)
+    for(int r=0; r<m->sloupcu-1; r++)
     {
         if(m->prvek[r][r] == 0)
         {
-            printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
+            printf("\nCHYBA! Matice neni ve tvaru po GJEM! %d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
             return false;
         }
 
-        for(int s=0; s<m->sloupcu; s++)
+        for(int s=0; s<m->sloupcu-1; s++)
         {
-            if(r!=s && (m->prvek[r][s] != 0))
+            if(r!=s && (m->prvek[s][r] != 0))
             {
                 printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
                 return false;
@@ -514,8 +514,59 @@ int gjemPoPrimem(Tmatice *m)
 void testMaticePoPrimemChodu(char *jmenoSouboru)
 {
   printf("==========================================\n");
-  // TODO: naprogramuj ji
   printf("Funkce testMaticePoPrimemChodu neni hotova.\n");
+
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return -1;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return -1;
+  }
+
+  Tmatice *d = maticeDuplikat(m);
+  if (d == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return -1;
+  }
+
+
+  if(jeHorni(m) == true)
+  {
+      printf("Jde o matici po pruchodu GEM\n");
+      printf("==========================================\n");
+      return;
+  }
+
+  if(jeHorniGJEM(m) == true)
+  {
+      printf("Jde o matici po pruchodu GJEM\n");
+      printf("==========================================\n");
+      return;
+  }
+
+  testPrimehoChodu(jmenoSouboru);
+
+
+  gemZpetny(m);
+  printf("GEM ZPETNY: \n");
+  tiskReseni(m);
+
+  printf("GJEM ZPETNY \n");
+  gjemZpetny(d);
+  tiskReseni(d);
+
+  printf("GEM PO PRIMEM \n");
+  gemPoPrimem(m);
+
+  printf("GJEM PO PRIMEM\n");
+  gjemPoPrimem(d);
+
   printf("==========================================\n");
 }
 
@@ -557,7 +608,7 @@ void gjemZpetny(Tmatice *m)
     for(int r = 0; r<m->sloupcu; r++)
     {
         m->prvek[r][m->sloupcu] = m->prvek[r][m->sloupcu] / m->prvek[r][r];
-        m->[r][r] = 1;
+        m->prvek[r][r] = 1;
     }
 }
 
@@ -592,7 +643,7 @@ void testZpetnyChod(char *jmenoSouboru)
   FILE *f = fopen(jmenoSouboru, "r");
   if (f == NULL) {
       printf("CHYBA! Soubor se nepodařilo otevřít\n");
-      return;
+      return -1;
   }
 
   // Načtení matice
@@ -601,26 +652,6 @@ void testZpetnyChod(char *jmenoSouboru)
       printf("CHYBA! Nepodařilo se načíst matici\n");
       return;
   }
-
-  // Vytvoření duplikátu
-  Tmatice *duplikat = maticeDuplikat(m);
-  if (duplikat == NULL) {
-      printf("CHYBA! Nepodařilo se vytvořit duplikát matice\n");
-      maticeUvolni(m);
-      return;
-  }
-
-  // Provedení přímého chodu GEM na původní matici
-  printf("GEM Zpetny chod:\n");
-      if(jeHorni == true)
-        {
-        gemZpetny(m);
-        tiskReseni(m);
-        }
-        else
-        {
-            printf("CHYBA! Matice zadana do zpetneho gem neni v hornim trojuhelnikovem tvaru");
-        }
 
   // Provedení přímého chodu GJEM na původní matici
   printf("GJEM zpetny chod:\n");
@@ -631,19 +662,50 @@ void testZpetnyChod(char *jmenoSouboru)
         }
         else
         {
-            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru");
+            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru\n");
         }
-
-
 
   // Uvolnění paměti
   maticeUvolni(m);
-  maticeUvolni(duplikat);
 
   printf("==========================================\n");
 }
 
+void testZpetnyChodGJEM(char *jmenoSouboru)
+{
+  printf("==========================================\n");
+  printf("Funkce testZpetnyChod\n");
 
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return -1;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM zpetny chod:\n");
+  if(jeHorniGJEM == true)
+        {
+        gjemZpetny(m);
+        tiskReseni(m);
+        }
+        else
+        {
+            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru\n");
+        }
+
+  // Uvolnění paměti
+  maticeUvolni(m);
+
+  printf("==========================================\n");
+}
 
 
 
@@ -657,9 +719,9 @@ int main(void)
   testInit();
   testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
   testMult();
-
-  testPrimehoChodu("B.txt");          // otestuj i jiné soubory
-  //testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
-  testZpetnyChod("B.txt");            // otestuj i jiné soubory
+  //testZpetnyChodGJEM("E.txt");
+  //testPrimehoChodu("B.txt");          // otestuj i jiné soubory
+  testMaticePoPrimemChodu("A.txt");   // otestuj i jiné soubory
+  //testZpetnyChod("C.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }
