@@ -241,6 +241,25 @@ void radkoveUpravy(Tmatice *m, int r)
     }
 }
 
+void radkoveUpravyGJEM(Tmatice *m, int r)
+{
+    float c = 0;
+
+    for(int k=0; k<m->sloupcu-1; k++)
+    {
+        if(k!=r)
+        {
+            c = m->prvek[k][r] / m->prvek[r][r];
+            m->prvek[k][r] = 0.0;
+
+            for(int s = r+1; s<m->sloupcu; s++)
+            {
+                m->prvek[k][s] = -c * m->prvek[r][s] + m->prvek[k][s];
+            }
+        }
+    }
+}
+
 /** \brief Testuje, zda je zadaná soustava ve tvaru horní trojúhelníkové matice.
  *
  * \param m Tmatice* Ukazatel na rozšířenou matici soustavy.
@@ -255,6 +274,29 @@ bool jeHorni(Tmatice *m)
         {
             if(r<s && (m->prvek[r][s] != 0))
             {
+                printf("\nCHYBA! Matice neni ve tvaru trojuhelnikove matice!\n");
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool jeHorniGJEM(Tmatice *m)
+{
+    for(int r=0; r<m->sloupcu; r++)
+    {
+        if(m->prvek[r][r] == 0)
+        {
+            printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
+            return false;
+        }
+
+        for(int s=0; s<m->sloupcu; s++)
+        {
+            if(r!=s && (m->prvek[r][s] != 0))
+            {
+                printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
                 return false;
             }
         }
@@ -288,8 +330,8 @@ int gemPrimy(Tmatice *m)
         if(k != r)
         {
             vymenaRadku(m,k,r);
-            radkoveUpravy(m,r);
         }
+        radkoveUpravy(m,r);
     }
     return 0;
 }
@@ -310,7 +352,7 @@ int gemPrimy(Tmatice *m)
 void gjemPrimy(Tmatice *m)
 {
   int k = 0;
-    for(int r=0; r < m->radku-1; r++)
+    for(int r=0; r < m->radku; r++)
     {
         int k = maxAbsPivot(m,r);
         if(m->prvek[k][r] == 0)
@@ -321,8 +363,8 @@ void gjemPrimy(Tmatice *m)
         if(k != r)
         {
             vymenaRadku(m,k,r);
-            radkoveUpravy(m,r);
         }
+        radkoveUpravyGJEM(m,r);
     }
     return 0;
 }
@@ -366,13 +408,14 @@ void testPrimehoChodu(char *jmenoSouboru)
   printf("GEM Primy chod:\n");
   gemPrimy(m);
   maticeTiskni(m);
+  gemPoPrimem(m);
 
-  /*
+
   // Provedení přímého chodu GJEM na původní matici
   printf("GJEM Primy chod:\n");
-  gemPrimy(duplikat);
+  gjemPrimy(duplikat);
   maticeTiskni(duplikat);
-  */
+
 
   // Uvolnění paměti
   maticeUvolni(m);
@@ -401,19 +444,27 @@ void testPrimehoChodu(char *jmenoSouboru)
  */
 int gemPoPrimem(Tmatice *m)
 {
+    if(jeHorni(m) == false)
+    {
+        return -1;
+    }
+    printf("POCET RESENI MATICE:\n");
   if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] == 0)
   {
       //nekonecne mnoho resení
+      printf("Matice ma nekonecne mnoho reseni!\n");
       return 0;
   }
   if(m->prvek[m->radku][m->sloupcu-1] != 0 && m->prvek[m->radku][m->sloupcu] != 0)
   {
       //jedno reseni
+      printf("Matice ma jedno reseni!\n");
       return 1;
   }
   if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] != 0)
   {
       //zadne reseni
+      printf("Matice nema zadne reseni!\n");
       return 0;
   }
 }
@@ -432,8 +483,21 @@ int gemPoPrimem(Tmatice *m)
  */
 int gjemPoPrimem(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  return false;
+    if(jeHorniGJEM(m) == true)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+    if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] == 0)
+    {
+        //nekonecne mnoho resení
+        printf("Matice ma nekonecne mnoho reseni!\n");
+        return -1;
+    }
 }
 
 /** \brief Test matic po přímém chodu
@@ -490,8 +554,11 @@ void gemZpetny(Tmatice *m)
  */
 void gjemZpetny(Tmatice *m)
 {
-  // TODO: naprogramuj ji
-  printf("Funkce gjemZpetny neni hotova.");
+    for(int r = 0; r<m->sloupcu; r++)
+    {
+        m->prvek[r][m->sloupcu] = m->prvek[r][m->sloupcu] / m->prvek[r][r];
+        m->[r][r] = 1;
+    }
 }
 
 /** \brief Tiskne řešení soustavy rovnic, které je uloženo v posledním sloupci rozšířené matice soustavy.
@@ -555,12 +622,19 @@ void testZpetnyChod(char *jmenoSouboru)
             printf("CHYBA! Matice zadana do zpetneho gem neni v hornim trojuhelnikovem tvaru");
         }
 
-  /*
   // Provedení přímého chodu GJEM na původní matici
-  printf("GJEM Primy chod:\n");
-  gemPrimy(duplikat);
-  maticeTiskni(duplikat);
-  */
+  printf("GJEM zpetny chod:\n");
+  if(jeHorniGJEM == true)
+        {
+        gjemZpetny(m);
+        tiskReseni(m);
+        }
+        else
+        {
+            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru");
+        }
+
+
 
   // Uvolnění paměti
   maticeUvolni(m);

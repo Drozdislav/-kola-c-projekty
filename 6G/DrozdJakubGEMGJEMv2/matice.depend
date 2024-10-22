@@ -29,3 +29,25 @@
 
 1729158216 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\drozdjakubgemgjemv2\gvid.h
 
+1729590418 source:r:\cprojekty\6g\drozdjakubgemgjemv2\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1729590419 r:\cprojekty\6g\drozdjakubgemgjemv2\matice.h
+	<stdio.h>
+
+1729591044 source:r:\cprojekty\6g\drozdjakubgemgjemv2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1729590418 r:\cprojekty\6g\drozdjakubgemgjemv2\gvid.h
+
