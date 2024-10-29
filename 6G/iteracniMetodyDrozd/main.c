@@ -288,7 +288,7 @@ bool jeHorniGJEM(Tmatice *m)
     {
         if(m->prvek[r][r] == 0)
         {
-            printf("\nCHYBA! Matice neni ve tvaru po GJEM! %d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
+            printf("\nCHYBA! Matice neni ve tvaru po GJEM! %d] prvek=%.2f\n",r,m->prvek[r][r]);
             return false;
         }
 
@@ -296,7 +296,7 @@ bool jeHorniGJEM(Tmatice *m)
         {
             if(r!=s && (m->prvek[s][r] != 0))
             {
-                printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
+                printf("\nCHYBA! Matice neni ve tvaru po GJEM! %d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
                 return false;
             }
         }
@@ -741,7 +741,58 @@ void upravaMatice(Tmatice *m)
     }
 }
 
+void reseniGS(Tmatice *m, float eps, float x[]) //nedava to smysl, nemelo by se to pole vytvorit az podle toho, kolik ta matice ma radku == vysledku????
+{
+    float xpred = 0;
+    float suma = 0;
+    for(int i = 0; i<m->radku; i++)
+    {
+        x[i] = 0.0;
+    }
 
+    // na začátku pesimisticky
+    bool jePresny = false;
+    while (!jePresny)
+    {
+        jePresny = true;
+        for (int r = 0; r< m->radku-1; r++)
+        {
+            xpred = x[r];
+            suma = 0;
+            for(int s = 0; s<m->radku-1; s++)
+            {
+                if(s != r)
+                {
+                    suma = suma + m->prvek[r][s] * x[s];
+                }
+            }
+
+            x[r] = (m->prvek[r][m->sloupcu] - suma) / m->prvek[r][r];
+
+
+jePresny = jePresny && fabs(xpred - x[r]) < eps;
+        }
+    }
+}
+
+void testujGS(char jmenoSouboru)
+{
+    //DOKONCIT
+    FILE *f = fopen(jmenoSouboru, "r");
+    if (f == NULL)
+        {
+        printf("CHYBA! Soubor se nepodařilo otevřít\n");
+        return -1;
+        }
+
+  // Načtení matice
+    Tmatice *m = maticeCtiZeSouboru(f);
+    if (m == NULL)
+        {
+        printf("CHYBA! Nepodařilo se načíst matici\n");
+        return;
+        }
+}
 
 /** Startovní bod programu. */
 int main(void)
@@ -750,12 +801,12 @@ int main(void)
 
   srand(time(NULL));
 
-  testInit();
-  testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
-  testMult();
+  //testInit();
+  //testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
+  //testMult();
   //testZpetnyChodGJEM("E.txt");
   //testPrimehoChodu("B.txt");          // otestuj i jiné soubory
-  testMaticePoPrimemChodu("A.txt");   // otestuj i jiné soubory
+  //testMaticePoPrimemChodu("A.txt");   // otestuj i jiné soubory
   //testZpetnyChod("C.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }
