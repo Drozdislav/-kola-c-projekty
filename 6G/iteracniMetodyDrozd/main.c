@@ -1,7 +1,7 @@
-/* Téma matice a moduly - varianta s polem pevných rozměrů
+/* Iteracni metody
  *
  * Autor: Drozd Jakub
- * Datum: 8.10.2024
+ * Datum: today
  *
  * Verze: 2.1
  * Errata:
@@ -199,19 +199,65 @@ void testMult(void)
  */
 int maxAbsPivot(Tmatice *m, int r)
 {
-    int maxRow = r;
-    double maxVal = fabs(m->prvek[r][r]);
+    int maxRow = r; // Začneme od referenčního řádku
+    double maxVal = fabs(m->prvek[r][r]); // Absolutní hodnota na diagonále
 
-    for (int i = r + 1; i < m->radku; ++i)
-    {
+    for (int i = r + 1; i < m->radku; i++) {
         double val = fabs(m->prvek[i][r]);
-        if (val > maxVal)
-        {
+        if (val > maxVal) {
             maxVal = val;
             maxRow = i;
         }
     }
-    return maxRow;
+
+    return maxRow; // Vrátíme index řádku s maximálním pivotem
+}
+
+void vymenaRadku(Tmatice *m, int k, int r)
+{
+    float pomocna = 0;
+
+    for(int i=0; i < m->sloupcu; i++)
+    {
+        pomocna = m->prvek[k][i];
+        m->prvek[k][i] = m->prvek[r][i];
+        m->prvek[r][i] = pomocna;
+    }
+}
+
+void radkoveUpravy(Tmatice *m, int r)
+{
+    float c = 0;
+
+    for(int k=r+1; k<m->sloupcu-1; k++)
+    {
+        c = m->prvek[k][r] / m->prvek[r][r];
+        m->prvek[k][r] = 0.0;
+
+        for(int s = r+1; s<m->sloupcu; s++)
+        {
+            m->prvek[k][s] = c * m->prvek[r][s] - m->prvek[k][s];
+        }
+    }
+}
+
+void radkoveUpravyGJEM(Tmatice *m, int r)
+{
+    float c = 0;
+
+    for(int k=0; k<m->sloupcu-1; k++)
+    {
+        if(k!=r)
+        {
+            c = m->prvek[k][r] / m->prvek[r][r];
+            m->prvek[k][r] = 0.0;
+
+            for(int s = r+1; s<m->sloupcu; s++)
+            {
+                m->prvek[k][s] = -c * m->prvek[r][s] + m->prvek[k][s];
+            }
+        }
+    }
 }
 
 /** \brief Testuje, zda je zadaná soustava ve tvaru horní trojúhelníkové matice.
@@ -222,17 +268,41 @@ int maxAbsPivot(Tmatice *m, int r)
  */
 bool jeHorni(Tmatice *m)
 {
-    for (int i = 0; i < m->radku; ++i)
+    for(int r=0; r<m->sloupcu-1; r++)
     {
-        for (int j = 0; j < i; ++j)
+        for(int s=r+1; s<m->sloupcu-1; s++)
         {
-            if (fabs(m->prvek[i][j]) > DBL_EPSILON)
+            if(r<s && (m->prvek[s][r] != 0.0))
+            {
+                printf("\nCHYBA! Matice neni ve tvaru trojuhelnikove matice!! [%d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
                 return false;
+            }
         }
     }
     return true;
 }
 
+bool jeHorniGJEM(Tmatice *m)
+{
+    for(int r=0; r<m->sloupcu-1; r++)
+    {
+        if(m->prvek[r][r] == 0)
+        {
+            printf("\nCHYBA! Matice neni ve tvaru po GJEM! %d,%d] prvek=%.2f\n",r,s,m->prvek[r][s]);
+            return false;
+        }
+
+        for(int s=0; s<m->sloupcu-1; s++)
+        {
+            if(r!=s && (m->prvek[s][r] != 0))
+            {
+                printf("\nCHYBA! Matice neni ve tvaru po GJEM!\n");
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 /** \brief Provede přímý chod GEM.
  *
@@ -248,21 +318,25 @@ bool jeHorni(Tmatice *m)
  */
 int gemPrimy(Tmatice *m)
 {
-    for (int i = 0; i < m->radku; ++i)
+    int k = 0;
+    for(int r=0; r < m->radku-1; r++)
     {
-        int pivotRow = maxAbsPivot(m, i);
-        if (pivotRow != i)
-            maticeVymenRadky(m, i, pivotRow);
-
-        for (int j = i + 1; j < m->radku; ++j)
+        int k = maxAbsPivot(m,r);
+        if(m->prvek[k][r] == 0)
         {
-            double factor = m->prvek[j][i] / m->prvek[i][i];
-            for (int k = i; k < m->sloupcu; ++k)
-                m->prvek[j][k] -= factor * m->prvek[i][k];
+            printf("CHYBA! Pivot se rovná nule");
+            return -1;
         }
+        if(k != r)
+        {
+            vymenaRadku(m,k,r);
+        }
+        radkoveUpravy(m,r);
     }
-    return EMOK;
+    return 0;
 }
+
+
 
 
 /** \brief Provede přímý chod GJEM.
@@ -277,30 +351,23 @@ int gemPrimy(Tmatice *m)
  */
 void gjemPrimy(Tmatice *m)
 {
-    for (int i = 0; i < m->radku; ++i)
+  int k = 0;
+    for(int r=0; r < m->radku; r++)
     {
-        int pivotRow = maxAbsPivot(m, i);
-        if (pivotRow != i)
-            maticeVymenRadky(m, i, pivotRow);
-
-        double pivot = m->prvek[i][i];
-        for (int j = i; j < m->sloupcu; ++j)
-            m->prvek[i][j] /= pivot;
-            m->prvek[i][i] = 1;
-
-        for (int j = 0; j < m->radku; ++j)
+        int k = maxAbsPivot(m,r);
+        if(m->prvek[k][r] == 0)
         {
-            if (i != j)
-            {
-                double factor = m->prvek[j][i];
-                m->prvek[j][i] = 0;
-                for (int k = i+1; k < m->sloupcu; ++k)
-                    m->prvek[j][k] -= factor * m->prvek[i][k];
-            }
+            printf("CHYBA! Pivot se rovná nule");
+            return -1;
         }
+        if(k != r)
+        {
+            vymenaRadku(m,k,r);
+        }
+        radkoveUpravyGJEM(m,r);
     }
+    return 0;
 }
-
 
 /** \brief Test přímého chodu, tj. operací gemPrimy a gjemPrimy.
  *
@@ -312,18 +379,51 @@ void gjemPrimy(Tmatice *m)
  * 2. Na duplikátu vstupní matice proveď přímý chod GJEM a vytiskni výsledek.
  * 3. Ukliď po sobě.
  */
-int testPrimehoChodu(Tmatice *m)
+void testPrimehoChodu(char *jmenoSouboru)
 {
-    for (int i = 0; i < m->radku; ++i)
-    {
-        if (fabs(m->prvek[i][i]) < DBL_EPSILON)
-        {
-            return 0;
-        }
-    }
+  printf("==========================================\n");
+  // Načítání matice ze souboru
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return;
+  }
 
-    return 1;
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Vytvoření duplikátu
+  Tmatice *duplikat = maticeDuplikat(m);
+  if (duplikat == NULL) {
+      printf("CHYBA! Nepodařilo se vytvořit duplikát matice\n");
+      maticeUvolni(m);
+      return;
+  }
+
+  // Provedení přímého chodu GEM na původní matici
+  printf("GEM Primy chod:\n");
+  gemPrimy(m);
+  maticeTiskni(m);
+  gemPoPrimem(m);
+
+
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM Primy chod:\n");
+  gjemPrimy(duplikat);
+  maticeTiskni(duplikat);
+
+
+  // Uvolnění paměti
+  maticeUvolni(m);
+  maticeUvolni(duplikat);
+
+  printf("==========================================\n");
 }
+
 
 
 
@@ -344,18 +444,30 @@ int testPrimehoChodu(Tmatice *m)
  */
 int gemPoPrimem(Tmatice *m)
 {
-    if (!jeHorni(m))
-        return 0;
-
-    for (int i = 0; i < m->radku; ++i)
+    if(jeHorni(m) == false)
     {
-        if (fabs(m->prvek[i][i]) < DBL_EPSILON)
-            return -1;
+        return -1;
     }
-
-    return 1;
+    printf("POCET RESENI MATICE:\n");
+  if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] == 0)
+  {
+      //nekonecne mnoho resení
+      printf("Matice ma nekonecne mnoho reseni!\n");
+      return 0;
+  }
+  if(m->prvek[m->radku][m->sloupcu-1] != 0 && m->prvek[m->radku][m->sloupcu] != 0)
+  {
+      //jedno reseni
+      printf("Matice ma jedno reseni!\n");
+      return 1;
+  }
+  if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] != 0)
+  {
+      //zadne reseni
+      printf("Matice nema zadne reseni!\n");
+      return 0;
+  }
 }
-
 
 /** \brief Vrací počet řešení upravené soustavy po provedení přímého chodu GJEM.
  *
@@ -371,13 +483,21 @@ int gemPoPrimem(Tmatice *m)
  */
 int gjemPoPrimem(Tmatice *m)
 {
-    for (int i = 0; i < m->radku; ++i)
+    if(jeHorniGJEM(m) == true)
     {
-        if (fabs(m->prvek[i][i]) < DBL_EPSILON)
-            return -1;
+        return 1;
+    }
+    else
+    {
+        return 0;
     }
 
-    return 1;
+    if(m->prvek[m->radku][m->sloupcu-1] == 0 && m->prvek[m->radku][m->sloupcu] == 0)
+    {
+        //nekonecne mnoho resení
+        printf("Matice ma nekonecne mnoho reseni!\n");
+        return -1;
+    }
 }
 
 /** \brief Test matic po přímém chodu
@@ -391,22 +511,64 @@ int gjemPoPrimem(Tmatice *m)
  * 4. Výsledek znovu otestuj.
  * 5. Vypiš, kolik řešení zadaná soustava má (0, 1, nekonečno).
  */
-int testMaticePoPrimemChodu(Tmatice *m)
+void testMaticePoPrimemChodu(char *jmenoSouboru)
 {
-    for (int i = 0; i < m->radku; ++i)
-    {
-        for (int j = 0; j < i; ++j)
-        {
-            if (fabs(m->prvek[i][j]) > DBL_EPSILON)
-            {
-                return 0;
-            }
-        }
-    }
+  printf("==========================================\n");
+  printf("Funkce testMaticePoPrimemChodu neni hotova.\n");
 
-    return 1;
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return -1;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return -1;
+  }
+
+  Tmatice *d = maticeDuplikat(m);
+  if (d == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return -1;
+  }
+
+
+  if(jeHorni(m) == true)
+  {
+      printf("Jde o matici po pruchodu GEM\n");
+      printf("==========================================\n");
+      return;
+  }
+
+  if(jeHorniGJEM(m) == true)
+  {
+      printf("Jde o matici po pruchodu GJEM\n");
+      printf("==========================================\n");
+      return;
+  }
+
+  testPrimehoChodu(jmenoSouboru);
+
+
+  gemZpetny(m);
+  printf("GEM ZPETNY: \n");
+  tiskReseni(m);
+
+  printf("GJEM ZPETNY \n");
+  gjemZpetny(d);
+  tiskReseni(d);
+
+  printf("GEM PO PRIMEM \n");
+  gemPoPrimem(m);
+
+  printf("GJEM PO PRIMEM\n");
+  gjemPoPrimem(d);
+
+  printf("==========================================\n");
 }
-
 
 
 
@@ -416,16 +578,21 @@ int testMaticePoPrimemChodu(Tmatice *m)
  *
  * \param m Tmatice* Ukazatel na rozšířenou matici soustavy.
  */
+
+
 void gemZpetny(Tmatice *m)
 {
-    for (int i = m->radku - 1; i >= 0; --i)
+    float suma = 0.0;
+
+    for(int r = m->sloupcu-1; r>0; r--)
     {
-        for (int j = i - 1; j >= 0; --j)
+        suma = 0.0;
+
+        for(int s = r+1; s<m->sloupcu-1; s++)
         {
-            double factor = m->prvek[j][i] / m->prvek[i][i];
-            for (int k = 0; k < m->sloupcu; ++k)
-                m->prvek[j][k] -= factor * m->prvek[i][k];
+            suma = suma + m->prvek[r][s] * m->prvek[s][m->sloupcu];
         }
+        m->prvek[r][m->sloupcu] = (m->prvek[r][m->sloupcu] - suma) / m->prvek[r][r];
     }
 }
 
@@ -438,29 +605,12 @@ void gemZpetny(Tmatice *m)
  */
 void gjemZpetny(Tmatice *m)
 {
-    for (int i = 0; i < m->radku; ++i)
+    for(int r = 0; r<m->sloupcu; r++)
     {
-        int pivotRow = maxAbsPivot(m, i);
-        if (pivotRow != i)
-            maticeVymenRadky(m, i, pivotRow);
-
-        double pivot = m->prvek[i][i];
-        for (int j = 0; j < m->sloupcu; ++j)
-            m->prvek[i][j] /= pivot;
-
-        for (int j = 0; j < m->radku; ++j)
-        {
-            if (i != j)
-            {
-                double factor = m->prvek[j][i];
-                for (int k = 0; k < m->sloupcu; ++k)
-                    m->prvek[j][k] -= factor * m->prvek[i][k];
-            }
-        }
+        m->prvek[r][m->sloupcu] = m->prvek[r][m->sloupcu] / m->prvek[r][r];
+        m->prvek[r][r] = 1;
     }
 }
-
-
 
 /** \brief Tiskne řešení soustavy rovnic, které je uloženo v posledním sloupci rozšířené matice soustavy.
  *
@@ -485,26 +635,76 @@ void tiskReseni(Tmatice *m)
  * 3. Vyřeš ji.
  * 4. Vypiš řešení soustavy pomocí funkce tiskReseni.
  */
-int testZpetnyChod(Tmatice *m)
+void testZpetnyChod(char *jmenoSouboru)
 {
+  printf("==========================================\n");
+  printf("Funkce testZpetnyChod\n");
 
-    for (int i = 0; i < m->radku; ++i)
-    {
-        if (fabs(m->prvek[i][i]) < DBL_EPSILON)
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return -1;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM zpetny chod:\n");
+  if(jeHorniGJEM == true)
         {
-            return -1;
+        gjemZpetny(m);
+        tiskReseni(m);
+        }
+        else
+        {
+            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru\n");
         }
 
-        for (int j = 0; j < i; ++j)
-        {
-            if (fabs(m->prvek[i][j]) > DBL_EPSILON)
-            {
-                return 0;
-            }
-        }
-    }
+  // Uvolnění paměti
+  maticeUvolni(m);
 
-    return 1;
+  printf("==========================================\n");
+}
+
+void testZpetnyChodGJEM(char *jmenoSouboru)
+{
+  printf("==========================================\n");
+  printf("Funkce testZpetnyChod\n");
+
+  FILE *f = fopen(jmenoSouboru, "r");
+  if (f == NULL) {
+      printf("CHYBA! Soubor se nepodařilo otevřít\n");
+      return -1;
+  }
+
+  // Načtení matice
+  Tmatice *m = maticeCtiZeSouboru(f);
+  if (m == NULL) {
+      printf("CHYBA! Nepodařilo se načíst matici\n");
+      return;
+  }
+
+  // Provedení přímého chodu GJEM na původní matici
+  printf("GJEM zpetny chod:\n");
+  if(jeHorniGJEM == true)
+        {
+        gjemZpetny(m);
+        tiskReseni(m);
+        }
+        else
+        {
+            printf("CHYBA! Matice zadana do zpetneho gjem neni ve spravnem tvaru\n");
+        }
+
+  // Uvolnění paměti
+  maticeUvolni(m);
+
+  printf("==========================================\n");
 }
 
 bool jeDDM(Tmatice *m)
@@ -553,9 +753,9 @@ int main(void)
   testInit();
   testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
   testMult();
-
-  testPrimehoChodu("B.txt");          // otestuj i jiné soubory
-  testMaticePoPrimemChodu("D.txt");   // otestuj i jiné soubory
-  testZpetnyChod("E.txt");            // otestuj i jiné soubory
+  //testZpetnyChodGJEM("E.txt");
+  //testPrimehoChodu("B.txt");          // otestuj i jiné soubory
+  testMaticePoPrimemChodu("A.txt");   // otestuj i jiné soubory
+  //testZpetnyChod("C.txt");            // otestuj i jiné soubory
   return EXIT_SUCCESS;
 }
