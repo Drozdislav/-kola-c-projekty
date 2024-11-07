@@ -784,6 +784,7 @@ void testujGS(char jmenoSouboru)
         printf("CHYBA! Soubor se nepodařilo otevřít\n");
         return -1;
         }
+        float x[100];
 
   // Načtení matice
     Tmatice *m = maticeCtiZeSouboru(f);
@@ -792,6 +793,12 @@ void testujGS(char jmenoSouboru)
         printf("CHYBA! Nepodařilo se načíst matici\n");
         return;
         }
+
+        if(jeDDM(m) == false)
+        {
+            printf("Matice neni ve tvaru DDM")
+        }
+        reseniGS(m,5.0, x)
 }
 
 /** Startovní bod programu. */
