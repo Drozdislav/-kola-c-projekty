@@ -723,22 +723,28 @@ for(int i = 0; i<m->sloupcu-1;i++)
         }
         if(soucetRadku - fabs(m->prvek[i][i]) > fabs(m->prvek[i][i]))
            {
+               printf("Matice neni DDM\n");
                return false;
            }
     }
-return true;
+    printf("Matice je DDM\n");
+    return true;
 }
 
 void upravaMatice(Tmatice *m)
 {
+    float pmc=0;
     for(int i = 0; i<m->radku; i++)
     {
+        pmc = m->prvek[i][i];
+
         for(int j = 0; j<m->sloupcu; j++)
         {
-            m->prvek[i][j] = m->prvek[i][j] / m->prvek[i][i];
+            m->prvek[i][j] = m->prvek[i][j] / pmc;
         }
         m->prvek[i][i] = 0;
     }
+    printf("Uprava matice prosla\n");
 }
 
 void reseniGS(Tmatice *m, float eps, float x[]) //nedava to smysl, nemelo by se to pole vytvorit az podle toho, kolik ta matice ma radku == vysledku????
@@ -755,27 +761,59 @@ void reseniGS(Tmatice *m, float eps, float x[]) //nedava to smysl, nemelo by se 
     while (!jePresny)
     {
         jePresny = true;
-        for (int r = 0; r< m->radku-1; r++)
+        for (int r = 0; r< m->radku; r++)
         {
             xpred = x[r];
             suma = 0;
-            for(int s = 0; s<m->radku-1; s++)
+            for(int s = 0; s<m->sloupcu-1; s++)
             {
-                if(s != r)
-                {
-                    suma = suma + m->prvek[r][s] * x[s];
-                }
+                suma = suma + m->prvek[r][s] * x[s];
             }
 
-            x[r] = (m->prvek[r][m->sloupcu] - suma) / m->prvek[r][r];
+            x[r] = (m->prvek[r][m->sloupcu-1] - suma);
 
 
-jePresny = jePresny && fabs(xpred - x[r]) < eps;
+            jePresny = jePresny && fabs(xpred - x[r]) < eps;
         }
     }
 }
 
-void testujGS(char jmenoSouboru)
+void reseniJ(Tmatice *m, float eps, float x[]) {
+    float x_new[m->radku];
+    float suma = 0;
+    bool jePresny = false;
+
+    for (int i = 0; i < m->radku; i++) {
+        x[i] = 0.0;
+    }
+
+    while (!jePresny) {
+        jePresny = true;
+
+        for (int r = 0; r < m->radku; r++) {
+            suma = 0.0;
+
+            for (int s = 0; s < m->sloupcu - 1; s++) {
+                if (s != r) {
+                    suma += m->prvek[r][s] * x[s];
+                }
+            }
+
+            x_new[r] = (m->prvek[r][m->sloupcu - 1] - suma) / m->prvek[r][r];
+
+            if (fabs(x_new[r] - x[r]) >= eps) {
+                jePresny = false;
+            }
+        }
+
+        for (int i = 0; i < m->radku; i++) {
+            x[i] = x_new[i];
+        }
+    }
+}
+
+
+void testujGS(char jmenoSouboru[])
 {
     //DOKONCIT
     FILE *f = fopen(jmenoSouboru, "r");
@@ -784,7 +822,6 @@ void testujGS(char jmenoSouboru)
         printf("CHYBA! Soubor se nepodařilo otevřít\n");
         return -1;
         }
-        float x[100];
 
   // Načtení matice
     Tmatice *m = maticeCtiZeSouboru(f);
@@ -793,20 +830,63 @@ void testujGS(char jmenoSouboru)
         printf("CHYBA! Nepodařilo se načíst matici\n");
         return;
         }
+        float x[m->sloupcu-2];
+        float y[m->sloupcu-2];
 
         if(jeDDM(m) == false)
         {
-            printf("Matice neni ve tvaru DDM")
+            printf("Matice neni ve tvaru DDM");
         }
-        reseniGS(m,5.0, x)
+        upravaMatice(m);
+        reseniGS(m,0.01, x);
+
+        for(int i = 0; i<m->radku;i++)
+        {
+            printf("x%d: %.2f\n", i, x[i]);
+        }
+
 }
+void testujJ(char jmenoSouboru[])
+{
+    //DOKONCIT
+    FILE *f = fopen(jmenoSouboru, "r");
+    if (f == NULL)
+        {
+        printf("CHYBA! Soubor se nepodařilo otevřít\n");
+        return -1;
+        }
+
+  // Načtení matice
+    Tmatice *m = maticeCtiZeSouboru(f);
+    if (m == NULL)
+        {
+        printf("CHYBA! Nepodařilo se načíst matici\n");
+        return;
+        }
+        float x[m->sloupcu-2];
+
+        if(jeDDM(m) == false)
+        {
+            printf("Matice neni ve tvaru DDM");
+        }
+        upravaMatice(m);
+        reseniJ(m,0.01, x);
+
+        for(int i = 0; i<m->radku;i++)
+        {
+            printf("x%d: %.2f\n", i, x[i]);
+        }
+}
+
+
 
 /** Startovní bod programu. */
 int main(void)
 {
   // Co nepotřebuješ, si můžeš zakomentovat.
-
-  srand(time(NULL));
+  //srand(time(NULL));
+  testujGS("F.txt");
+  testujJ("F.txt");
 
   //testInit();
   //testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
