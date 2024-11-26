@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1732618454 source:r:\cprojekty\6g\osobniblbosti\main.c
+	<stdio.h>
+	<stdlib.h>
+	"duleziteFunkce.h"
+
+1732620519 r:\cprojekty\6g\osobniblbosti\dulezitefunkce.h
+	<stdio.h>
+
+1732620395 source:r:\cprojekty\6g\osobniblbosti\dulezitefunkce.c
+	"duleziteFunkce.h"
+	<stdio.h>
+	<stdlib.h>
+
+1732618454 r:\cprojekty\6g\osobniblbosti\dulezitefunkce.c
+	"duleziteFunkce.h"
+	<stdio.h>
+	<stdlib.h>
+

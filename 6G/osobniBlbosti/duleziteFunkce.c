@@ -89,16 +89,62 @@ if(jsouStejne == 0) {
 return m3;
 
 }
+/*
+Vrátí zbytek po vydelení dvou ciswel
+*/
+int zbytekPoDeleni(int dividend, int divisor) {
+    return dividend % divisor;  // Modulo operator returns the remainder
+}
 
-void z10doBinTisk(int cislo)
+int getPocetCifer10do2(int cislo)
+{
+    int n = 1;
+    int pocetCifer = 1;
+    while(cislo>n)
+    {
+        n = n*2;
+        pocetCifer = pocetCifer + 1;
+    }
+    return pocetCifer;
+}
+
+int z10doBin(int cislo)
 {
     if(cislo<0)
     {
         cislo = cislo*(-1);
     }
     int n = 1;
+    int pocetCifer = 1;
     while(cislo>n)
     {
+        n = n*2;
+        pocetCifer = pocetCifer + 1;
+    }
 
+    int x[pocetCifer+1];
+
+    for(int i = 0; i<pocetCifer; i++)
+    {
+        if(zbytekPoDeleni(cislo,n) == 0)
+        {
+            x[i] = 1;
+        }
+        else
+        {
+            x[i] = 0;
+        }
+    }
+    return x;
+}
+
+void vypis1DpoleCISLA(int pole[], int pC)
+{
+    printf("Vypis pole: \n");
+    for(int i = 0; i<pC; i++)
+    {
+        printf("%d", pole[i]);
     }
 }
+
+
