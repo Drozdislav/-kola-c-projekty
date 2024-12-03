@@ -779,35 +779,34 @@ void reseniGS(Tmatice *m, float eps, float x[]) //nedava to smysl, nemelo by se 
 }
 
 void reseniJ(Tmatice *m, float eps, float x[]) {
-    float x_new[m->radku];
+    float xpred[m->radku-1];
     float suma = 0;
-    bool jePresny = false;
-
-    for (int i = 0; i < m->radku; i++) {
+    for(int i = 0; i<m->radku; i++)
+    {
         x[i] = 0.0;
     }
 
-    while (!jePresny) {
+    // na začátku pesimisticky
+    bool jePresny = false;
+    while (!jePresny)
+    {
+        for(int j = 0; j<m->radku; j++)
+            {
+                xpred[j] = x[j];
+            }
         jePresny = true;
-
-        for (int r = 0; r < m->radku; r++) {
-            suma = 0.0;
-
-            for (int s = 0; s < m->sloupcu - 1; s++) {
-                if (s != r) {
-                    suma += m->prvek[r][s] * x[s];
-                }
+        for (int r = 0; r< m->radku; r++)
+        {
+            suma = 0;
+            for(int s = 0; s<m->sloupcu-1; s++)
+            {
+                suma = suma + m->prvek[r][s] * x[s];
             }
 
-            x_new[r] = (m->prvek[r][m->sloupcu - 1] - suma) / m->prvek[r][r];
+            x[r] = (m->prvek[r][m->sloupcu-1] - suma);
 
-            if (fabs(x_new[r] - x[r]) >= eps) {
-                jePresny = false;
-            }
-        }
 
-        for (int i = 0; i < m->radku; i++) {
-            x[i] = x_new[i];
+            jePresny = jePresny && fabs(xpred[r] - x[r]) < eps;
         }
     }
 }
@@ -815,6 +814,7 @@ void reseniJ(Tmatice *m, float eps, float x[]) {
 
 void testujGS(char jmenoSouboru[])
 {
+    printf("--- GAUSS-SEIDLOVA ITERACNI METODA ---");
     //DOKONCIT
     FILE *f = fopen(jmenoSouboru, "r");
     if (f == NULL)
@@ -831,7 +831,6 @@ void testujGS(char jmenoSouboru[])
         return;
         }
         float x[m->sloupcu-2];
-        float y[m->sloupcu-2];
 
         if(jeDDM(m) == false)
         {
@@ -840,14 +839,19 @@ void testujGS(char jmenoSouboru[])
         upravaMatice(m);
         reseniGS(m,0.01, x);
 
+        printf("Vysledky:\n")
+
         for(int i = 0; i<m->radku;i++)
         {
-            printf("x%d: %.2f\n", i, x[i]);
+            printf("x%d: %.2f\n", i+1, x[i]);
         }
 
+        fclose(f);
+        maticeUvolni(m);
 }
 void testujJ(char jmenoSouboru[])
 {
+    printf("--- JACOBIHO ITERACNI METODA ---");
     //DOKONCIT
     FILE *f = fopen(jmenoSouboru, "r");
     if (f == NULL)
@@ -872,10 +876,14 @@ void testujJ(char jmenoSouboru[])
         upravaMatice(m);
         reseniJ(m,0.01, x);
 
+        printf("Vysledky:\n");
+
         for(int i = 0; i<m->radku;i++)
         {
-            printf("x%d: %.2f\n", i, x[i]);
+            printf("x%d: %.2f\n", i+1, x[i]);
         }
+    fclose(f);
+    maticeUvolni(m);
 }
 
 
@@ -885,7 +893,7 @@ int main(void)
 {
   // Co nepotřebuješ, si můžeš zakomentovat.
   //srand(time(NULL));
-  testujGS("F.txt");
+  //testujGS("F.txt");
   testujJ("F.txt");
 
   //testInit();

@@ -81,3 +81,25 @@
 
 1731408655 r:\cprojekty\6g\iteracnimetodydrozd\gvid.h
 
+1730756136 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\iteracnimetodydrozd\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1730756136 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\iteracnimetodydrozd\matice.h
+	<stdio.h>
+
+1733236247 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\iteracnimetodydrozd\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1730756136 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\iteracnimetodydrozd\gvid.h
+
