@@ -17,3 +17,16 @@
 	<stdio.h>
 	<stdlib.h>
 
+1733235954 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.c
+	"duleziteFunkce.h"
+	<stdio.h>
+	<stdlib.h>
+
+1733237090 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
+	<stdio.h>
+
+1733236982 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\main.c
+	<stdio.h>
+	<stdlib.h>
+	"duleziteFunkce.h"
+

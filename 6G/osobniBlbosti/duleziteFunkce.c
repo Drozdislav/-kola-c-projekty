@@ -108,34 +108,18 @@ int getPocetCifer10do2(int cislo)
     return pocetCifer;
 }
 
-int z10doBin(int cislo)
-{
-    if(cislo<0)
-    {
-        cislo = cislo*(-1);
-    }
+void z10doBin(int cislo, int x[], int *pocetCifer) {
     int n = 1;
-    int pocetCifer = 1;
-    while(cislo>n)
-    {
-        n = n*2;
-        pocetCifer = pocetCifer + 1;
+    *pocetCifer = 0;
+    while (cislo > n) {
+        n = n * 2;
+        (*pocetCifer)++;
     }
 
-    int x[pocetCifer+1];
-
-    for(int i = 0; i<pocetCifer; i++)
-    {
-        if(zbytekPoDeleni(cislo,n) == 0)
-        {
-            x[i] = 1;
-        }
-        else
-        {
-            x[i] = 0;
-        }
+    for (int i = *pocetCifer - 1; i >= 0; i--) {
+        x[i] = cislo % 2;
+        cislo /= 2;
     }
-    return x;
 }
 
 void vypis1DpoleCISLA(int pole[], int pC)

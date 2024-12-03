@@ -4,10 +4,11 @@
 
 int main()
 {
-    int pocetCifer = getPocetCifer10do2(458);
+    int pocetCifer;
     int x[1000];
-    x = z10doBin(458);
-    void vypis1DpoleCISLA(x[pocetCifer],pocetCifer);
+    z10doBin(458, x, &pocetCifer);
+    vypis1DpoleCISLA(x, pocetCifer);
+
 
 
     return 0;
