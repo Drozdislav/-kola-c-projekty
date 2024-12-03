@@ -711,7 +711,7 @@ bool jeDDM(Tmatice *m)
 {
 int soucetRadku = 0;
 
-for(int i = 0; i<m->sloupcu-1;i++)
+for(int i = 0; i<m->radku-1;i++)
     {
 
     soucetRadku = 0;
