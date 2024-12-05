@@ -886,22 +886,6 @@ void testujJ(char jmenoSouboru[])
     maticeUvolni(m);
 }
 
-float horner(float koef[], int n, float x)
-{
-    float suma = 0.0;
-    for(int i = 0; i<n+1; i++)
-    {
-        suma = (suma * x) + koef[i];
-    }
-    return suma;
-}
-
-float f1(float x)
-{
-    float koef [] = {7.5, 3.2, -5.0};
-    return horner(koef, 2, x);
-}
-
 /** Startovní bod programu. */
 int main(void)
 {
@@ -909,8 +893,7 @@ int main(void)
   //srand(time(NULL));
   //testujGS("F.txt");
   //testujJ("F.txt");
-    float x = 2.0;
-    printf("f1(%.1f) = %.2f\n", x, f1(x));
+
   //testInit();
   //testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
   //testMult();

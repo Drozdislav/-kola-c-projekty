@@ -886,22 +886,107 @@ void testujJ(char jmenoSouboru[])
     maticeUvolni(m);
 }
 
+/*
+--------------------------------------
+**ZACATEK RESENI NELINEARNICH ROVNIC**
+--------------------------------------
+*/
+typedef double (*Tfun)(double);
 
+float horner(float koef[], int n, float x) {
+    float suma = 0.0;
+    for (int i = 0; i < n + 1; i++) {
+        suma = (suma * x) + koef[i];
+    }
+    return suma;
+}
 
-/** Startovní bod programu. */
-int main(void)
+//P(x) = 7.5x^2 + 3.2x - 5.0
+double f1(double x) {
+    float koef[] = {7.5, 3.2, -5.0};
+    return horner(koef, 2, x);
+}
+
+//P(x) = 9x^4 + 5.3x^3 - 6.3x^2 + 10x - 1.1
+double f2(double x) {
+    float koef[] = {9, 5.3, -6.3, 10, -1.1};
+    return horner(koef, 4, x);
+}
+
+double rekurzivniBisekce(double a, double b, double eps, Tfun func) {
+    double middle = (a + b) / 2;
+    double fmiddle = func(middle);
+
+    if (fabs(fmiddle) < eps || fabs(b - a) < eps) {
+        return middle;
+    }
+
+    if (func(a) * fmiddle < 0) {
+        return rekurzivniBisekce(a, middle, eps, func);
+    } else {
+        return rekurzivniBisekce(middle, b, eps, func);
+    }
+}
+
+// Iterative version of bisection
+double nerekurzivniBisekce(double a, double b, double eps, Tfun func) {
+    double middle, fa = func(a), fmiddle;
+
+    while (fabs(b - a) >= eps) {
+        middle = (a + b) / 2;
+        fmiddle = func(middle);
+
+        if (fabs(fmiddle) < eps) {
+            return middle;
+        }
+
+        if (fa * fmiddle < 0) {
+            b = middle;
+        } else {
+            a = middle;
+            fa = fmiddle;
+        }
+    }
+
+    return (a + b) / 2;
+}
+
+double regulaFalsi(double a, double b, float eps, Tfun func)
 {
-  // Co nepotřebuješ, si můžeš zakomentovat.
-  //srand(time(NULL));
-  //testujGS("F.txt");
-  testujJ("F.txt");
+    double fa = func(a);
+    double fb = func(b);
+    double c = a + fa*(b-a)/(fa - fb);
+    double fc;
+    while (fabs(fc = func(c)) >= eps)
+    {
+        if (fa * fc < 0)
+        {
+            b = c;
+            fb = fc;
+        }
+        else
+        {
+            a = c;
+            fa = fc;
+        }
 
-  //testInit();
-  //testFileRW("A.txt", NULL); // NULL -> bude zapisovat na stdout
-  //testMult();
-  //testZpetnyChodGJEM("E.txt");
-  //testPrimehoChodu("B.txt");          // otestuj i jiné soubory
-  //testMaticePoPrimemChodu("A.txt");   // otestuj i jiné soubory
-  //testZpetnyChod("C.txt");            // otestuj i jiné soubory
-  return EXIT_SUCCESS;
+        c = a + fa*(b-a)/(fa - fb);
+    }
+    return c;
+}
+
+/** Start point of the program */
+int main(void) {
+    Tfun func = f2;
+
+    double x = 2.0;
+    printf("f1(%.1f) = %.2f\n", x, f1(x));
+
+    double vysledekBisekce = nerekurzivniBisekce(1, 8, 0.001, func);
+    printf("Vysledek nerekurzivni bisekce je %.5f\n", vysledekBisekce);
+
+    vysledekBisekce = rekurzivniBisekce(1, 8, 0.001, func);
+    printf("Vysledek rekurzivni bisekce je %.5f\n", vysledekBisekce);
+
+    return EXIT_SUCCESS;
 }
