@@ -928,7 +928,6 @@ double rekurzivniBisekce(double a, double b, double eps, Tfun func) {
     }
 }
 
-// Iterative version of bisection
 double nerekurzivniBisekce(double a, double b, double eps, Tfun func) {
     double middle, fa = func(a), fmiddle;
 

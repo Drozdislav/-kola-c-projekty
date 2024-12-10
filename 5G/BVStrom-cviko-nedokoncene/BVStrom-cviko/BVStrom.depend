@@ -12,3 +12,21 @@
 1605133189 r:\cprojekty\5g\bvstrom-cviko\bvstrom-cviko\strom.h
 	<stdbool.h>
 
+1605135396 source:r:\cprojekty\5g\bvstrom-cviko-nedokoncene\bvstrom-cviko\main.c
+	"gvid.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<ctype.h>
+	"strom.h"
+
+1604521118 r:\cprojekty\5g\bvstrom-cviko-nedokoncene\bvstrom-cviko\gvid.h
+
+1605133189 r:\cprojekty\5g\bvstrom-cviko-nedokoncene\bvstrom-cviko\strom.h
+	<stdbool.h>
+
+1702030450 source:r:\cprojekty\5g\bvstrom-cviko-nedokoncene\bvstrom-cviko\strom.c
+	<stdio.h>
+	<stdlib.h>
+	"strom.h"
+

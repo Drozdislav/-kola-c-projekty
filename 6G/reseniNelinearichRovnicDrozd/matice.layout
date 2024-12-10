@@ -7,26 +7,10 @@
 			<Cursor1 position="779" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="maticeC.txt" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="maticeD.txt" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="25032" topLine="832" />
-		</Cursor>
-		<Folding>
-			<Collapse line="29" />
-			<Collapse line="64" />
-			<Collapse line="128" />
-			<Collapse line="160" />
-		</Folding>
 	</File>
 	<File name="matice.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
@@ -47,12 +31,28 @@
 			<Collapse line="207" />
 		</Folding>
 	</File>
+	<File name="maticeB.txt" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="25052" topLine="848" />
+		</Cursor>
+		<Folding>
+			<Collapse line="29" />
+			<Collapse line="64" />
+			<Collapse line="128" />
+			<Collapse line="160" />
+		</Folding>
+	</File>
 	<File name="maticeA.txt" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="maticeB.txt" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="maticeC.txt" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>

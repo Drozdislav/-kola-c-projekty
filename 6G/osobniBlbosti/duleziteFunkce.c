@@ -127,8 +127,32 @@ void vypis1DpoleCISLA(int pole[], int pC)
     printf("Vypis pole: \n");
     for(int i = 0; i<pC; i++)
     {
-        printf("%d", pole[i]);
+        printf(" %d", pole[i]);
+    }
+    printf("\n");
+}
+
+void bubblesort(float pole[], int n)
+{
+    float pom;
+
+    for(int i = 0; i<n-1 ; i++)
+    {
+        for(int j = 0; j<n-i-1; j++)
+        {
+            if(pole[j] > pole[j+1])
+            {
+                swapNumbers(&pole[j], &pole[j+1]);
+            }
+        }
     }
 }
 
 
+void swapNumbers(float *cislo1, float *cislo2)
+{
+    float pomocna;
+    pomocna = *cislo1;
+    *cislo1 = *cislo2;
+    *cislo2 = pomocna;
+}

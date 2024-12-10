@@ -111,3 +111,25 @@
 1730756136 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\reseninelinearichrovnicdrozd\matice.h
 	<stdio.h>
 
+1733828199 source:r:\cprojekty\6g\reseninelinearichrovnicdrozd\matice.c
+	"matice.h"
+	<stdio.h>
+	<stdlib.h>
+
+1733828199 r:\cprojekty\6g\reseninelinearichrovnicdrozd\matice.h
+	<stdio.h>
+
+1733828423 source:r:\cprojekty\6g\reseninelinearichrovnicdrozd\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<time.h>
+	"gvid.h"
+	"matice.h"
+
+1733828198 r:\cprojekty\6g\reseninelinearichrovnicdrozd\gvid.h
+

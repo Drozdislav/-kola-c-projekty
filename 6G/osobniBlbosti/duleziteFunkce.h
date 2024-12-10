@@ -23,4 +23,7 @@ int zbytekPoDeleni(int dividend, int divisor);
 int getPocetCifer10do2(int cislo);
 void vypis1DpoleCISLA(int pole[], int pC);
 void z10doBin(int cislo, int x[], int *pocetCifer);
+
+void swapNumbers(float *cislo1, float *cislo2);
+void bubblesort(float pole[], int n);
 #endif // MOJEMATICE_H_INCLUDED
