@@ -974,6 +974,22 @@ double regulaFalsi(double a, double b, float eps, Tfun func)
     return c;
 }
 
+double secny(double a, double b, float eps, Tfun func)
+{
+    double fa = func(a);
+    double fb = func(b);
+    double c = b - (fb*(b-a)) / (fb-fa);
+
+    while(fabs(c) > eps)
+    {
+        a=b;
+        b=c;
+        double c = b - (fb*(b-a)) / (fb-fa);
+    }
+
+    return c;
+}
+
 /** Start point of the program */
 int main(void) {
     Tfun func = f2;
