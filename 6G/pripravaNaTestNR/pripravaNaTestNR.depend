@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1738069213 source:r:\cprojekty\6g\pripravanatestnr\kokot.c
+	<stdio.h>
+	<stdlib.h>
+	"kokot.h"
+
+1738065385 r:\cprojekty\6g\pripravanatestnr\kokot.h
+	<stdio.h>
+
+1738069267 source:r:\cprojekty\6g\pripravanatestnr\main.c
+	"kokot.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+

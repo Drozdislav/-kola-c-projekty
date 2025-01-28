@@ -990,6 +990,15 @@ double secny(double a, double b, float eps, Tfun func)
     return c;
 }
 
+float newton(float koef_fce[], float koef_drce[], int n, float eps)
+{
+    while(fabs(horner(koef_fce, n, x))>eps)
+    {
+        x=x-horner(koef_fce, n, x) / horner(koef_drce, n-1, x);
+    }
+    return x;
+}
+
 /** Start point of the program */
 int main(void) {
     Tfun func = f2;
