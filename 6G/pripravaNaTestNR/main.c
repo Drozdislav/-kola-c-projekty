@@ -25,12 +25,48 @@ float newton(Tfce f, Tfce der, float eps, float x, int *ok) {
     return x;
 }
 
+
+
+double obdelnik(double a, double b, float eps, Tfce func)
+{
+    double k = 1;
+    double h = 0;
+    double S = eps + 200;
+    double Spred = eps + 100;
+    double suma = 0.0;
+    int p = 0;
+
+    while(fabs(Spred - S) > eps)
+    {
+        p++;
+        h = (b-a)/k;
+        Spred = S;
+
+        for(int i = 0; i<=k-1; i++)
+        {
+            suma = suma + horner(func,a + (h/2) + i*h);
+        }
+
+        S = h * suma;
+        printf("%d.S : %.4f\n", p,S);
+
+        k = k*2;
+    }
+    printf("\n");
+    return S;
+}
+
+
+
+
 int main() {
     int ok = 1;
     Tintervaly *intervaly;
     int m;
     Tfce fce, der;
     float eps, r;
+    Tfce fce1 = { .koef = {-15, -2, 7, 1}, .n = 4};
+
 
     FILE *f = fopen("data1.txt", "r");
     if (f == NULL) {
@@ -62,6 +98,10 @@ int main() {
         printf("Problém pøi ètení intervalù\n");
         return -1;
     }
+
+    double vysledekObdelnik = obdelnik(-0.7,0.7,0.000001,fce1);
+    printf("Obsah plochy pod grafem je %.2f jednotek\n", vysledekObdelnik);
+
 
     switch (m) {
         case 'N':

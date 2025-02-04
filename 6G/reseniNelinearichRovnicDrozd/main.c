@@ -990,17 +990,21 @@ double secny(double a, double b, float eps, Tfun func)
     return c;
 }
 
-float newton(float koef_fce[], float koef_drce[], int n, float eps)
+/*float newton(float koef_fce[], float koef_drce[], int n, float eps)
 {
     while(fabs(horner(koef_fce, n, x))>eps)
     {
         x=x-horner(koef_fce, n, x) / horner(koef_drce, n-1, x);
     }
     return x;
-}
+}*/
+
+
+//(a + (h/2) + k*h)
 
 /** Start point of the program */
-int main(void) {
+int main(void)
+{
     Tfun func = f2;
 
     double x = 2.0;
@@ -1011,6 +1015,7 @@ int main(void) {
 
     vysledekBisekce = rekurzivniBisekce(1, 8, 0.001, func);
     printf("Vysledek rekurzivni bisekce je %.5f\n", vysledekBisekce);
+
 
     return EXIT_SUCCESS;
 }
