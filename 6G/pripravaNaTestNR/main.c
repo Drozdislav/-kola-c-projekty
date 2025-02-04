@@ -34,6 +34,7 @@ double obdelnik(double a, double b, float eps, Tfce func)
     double S = eps + 200;
     double Spred = eps + 100;
     double suma = 0.0;
+
     int p = 0;
 
     while(fabs(Spred - S) > eps)
@@ -48,7 +49,8 @@ double obdelnik(double a, double b, float eps, Tfce func)
         }
 
         S = h * suma;
-        printf("%d.S : %.4f\n", p,S);
+        suma = 0.0;
+        printf("%d.S : %.7f\n", p,S);
 
         k = k*2;
     }
@@ -65,7 +67,10 @@ int main() {
     int m;
     Tfce fce, der;
     float eps, r;
-    Tfce fce1 = { .koef = {-15, -2, 7, 1}, .n = 4};
+    Tfce fce1 = {
+                    .koef = {-15, -2, 7, 1},
+                    .n = 4
+                };
 
 
     FILE *f = fopen("data1.txt", "r");
