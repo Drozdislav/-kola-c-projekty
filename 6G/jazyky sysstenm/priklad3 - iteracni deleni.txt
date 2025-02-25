@@ -1,0 +1,21 @@
+zadani
+c=0
+while(a>=b)
+{
+c++
+a=a-b
+}
+b=a
+b=c
+
+
+MOV CX,0
+podminka:
+CMP BX,AX
+JG neplati
+INC CX
+SUB AX,BX
+JMP podminka
+neplati:
+MOV BX,AX
+MOV AX,CX

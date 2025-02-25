@@ -1,0 +1,11 @@
+IN
+SUB AL, '0'
+MOV BL,AL
+MOV AL,'A'
+skok:
+CMP BL,0
+JLE konec
+OUT
+INC AL
+DEC BL
+JUMP skok

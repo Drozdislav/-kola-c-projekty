@@ -1,0 +1,12 @@
+MOV CL,AL
+ADD CL,AL
+MPL AL,BL
+CMP CL,AL
+JG else
+MOV AL, 'N'
+OUT
+JMP konec
+else:
+MOV AL, 'A'
+OUT
+konec:

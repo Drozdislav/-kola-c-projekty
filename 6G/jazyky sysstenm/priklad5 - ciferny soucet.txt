@@ -1,0 +1,10 @@
+MOV BX,0
+podminka:
+CMP AX,0
+JLE konec
+MOV CX,AX
+MOD CX,10
+ADD BX,CX
+DIV AX,10
+JM0P podminka 
+konec:

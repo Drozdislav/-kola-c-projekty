@@ -1,0 +1,25 @@
+vstup 2 3 0 5 1 '\n'
+
+horner()
+{
+sum = 0, x = AX
+while (vstup != '\n')
+    {
+    sum = sum * x + vstup
+    }
+}
+
+// x = AX
+
+MOV BX, 0
+IN 
+while:
+CMP AL, '\n'
+JZ konec
+SUB AL, '0'
+MPL BX, AX
+ADD BX, AL
+JMP while
+IN
+JMP while
+konec:

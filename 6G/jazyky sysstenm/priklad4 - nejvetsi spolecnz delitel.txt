@@ -1,0 +1,15 @@
+NSD, 
+a je v AX
+b je v BX
+
+zacatek:
+CMP AX,BX
+JZ konec
+CMP AX,BX
+JG vetsi
+SUB BX,AX
+JMP zacatek
+vetsi:
+SUB AX,BX
+JMP zacatek
+konec:
