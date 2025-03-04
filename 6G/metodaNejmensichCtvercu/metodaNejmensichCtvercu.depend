@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1741089667 source:r:\cprojekty\6g\metodanejmensichctvercu\main.c
+	<stdio.h>
+	<stdlib.h>
+	"pole.h"
+
+1741088567 r:\cprojekty\6g\metodanejmensichctvercu\pole.h
+
