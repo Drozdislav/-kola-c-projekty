@@ -1,0 +1,12 @@
+# Ignore the virtual environment folder
+myenv/
+
+# Ignore system files
+__pycache__/
+*.pyc
+
+# Ignore VS Code settings (if using VS Code)
+.vscode/
+
+# Ignore environment files (if using dotenv for credentials)
+.env
