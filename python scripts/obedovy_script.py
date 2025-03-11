@@ -2,79 +2,73 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.webdriver.edge.service import Service as EdgeService
 import time
 
-# Initialize the Chrome driver
-driver = webdriver.Chrome(ChromeDriverManager().install())
+# Initialize Edge WebDriver using WebDriver Manager
+service = EdgeService(EdgeChromiumDriverManager().install())
+driver = webdriver.Edge(service=service)
 
-# Go to the login page
-driver.get('http://jidelna.gvid.cz/faces/login.jsp')  # Replace with your actual login URL
+# Define URLs
+login_url = 'http://jidelna.gvid.cz/faces/login.jsp'
+main_url = 'http://jidelna.gvid.cz/faces/secured/main.jsp?terminal=false&android=false&keyboard=false&printer=false'
 
-# Wait until the page is fully loaded
+# Open login page
+driver.get(login_url)
+
+# Wait for the page to load
 time.sleep(2)
 
-# Enter the username and password
+# Enter login credentials
 username = driver.find_element(By.ID, 'j_username')
 password = driver.find_element(By.ID, 'j_password')
 
-# Replace with your login credentials
-username.send_keys('drozd1439')  # Replace with your username
-password.send_keys('J@kub1979')  # Replace with your password
+# Replace with your credentials
+username.send_keys('drozd1439')
+password.send_keys('J@kub1979')
 
-# Find the login button and click it
+# Click the login button
 login_button = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.XPATH, "//input[@type='submit' and @value='Přihlásit']"))
 )
 login_button.click()
 
-# Wait until login is complete and the page URL changes
-WebDriverWait(driver, 20).until(EC.url_changes('http://jidelna.gvid.cz/faces/login.jsp'))
+# Wait until login is complete
+WebDriverWait(driver, 20).until(EC.url_changes(login_url))
 
-# After login, navigate to the calendar page
-driver.get('http://jidelna.gvid.cz/faces/secured/main.jsp?terminal=false&android=false&keyboard=false&printer=false')  # Replace with the actual URL of the lunch selection page
+# Start processing lunches
+while True:
+    # Go to the main page
+    driver.get(main_url)
 
-# Wait for the calendar to load and the calendar table to be visible
-WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'td.KalTable')))
-
-try:
-    # Find all the calendar day <td> elements
-    days = driver.find_elements(By.CSS_SELECTOR, 'td.KalTable')  # All td elements with the class 'KalTable'
-
-    # Loop through the days and select all yellow days (unselected)
-    for day in days:
-        # Get the background color of the day button
-        button_style = day.get_attribute('style')
-
-        # Check if the background color is the specific unselected color (yellow)
-        if 'background-color: #FBE983' in button_style:  # Match the unselected yellow color
-            # Get the day number from the <div> tag inside <td>
-            day_number = day.find_element(By.TAG_NAME, 'div').text
-            # Wait for the day to be clickable, then click it
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable(day))
-            day.click()
-            print(f"Successfully selected day {day_number}!")
-
-            # Wait a bit to confirm the action before continuing to the next day
-            time.sleep(1)  # Adjust if needed to avoid clicking too quickly
-
-    # Find the first lunch choice button ('Oběd 1')
-    button = driver.find_element(By.XPATH, "//a[@class='btn button-link button-link-main enabled']//span[contains(text(), 'Oběd 1')]")
-
-    # Wait for the button to be clickable
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(button))
-    # Click the button
-    button.click()
-    print("Successfully selected 'Oběd 1'!")
-
-    # Wait a bit to confirm the action
+    # Wait for the page to load
     time.sleep(2)
 
-except Exception as e:
-    print(f"Error occurred: {e}")
+    # Find any yellow (unselected) lunch buttons
+    yellow_buttons = driver.find_elements(By.CSS_SELECTOR, "td.KalTable.Kal1")
 
-# Wait a few seconds before closing the browser
-time.sleep(5)
+    if not yellow_buttons:
+        print("Lunches already selected")
+        break
+
+    # Click the first available yellow button
+    yellow_buttons[0].click()
+    print("Selected a lunch day")
+
+    # Wait for the lunch selection button to appear
+    try:
+        order_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//a[contains(@class, 'button-link-main') and .//span[contains(text(), 'Oběd 1')]]"))
+        )
+        order_button.click()
+        print("Ordered 'Oběd 1' successfully")
+    except Exception as e:
+        print(f"Error selecting lunch: {e}")
+        break
+
+    # Short delay before checking again
+    time.sleep(2)
 
 # Close the browser
 driver.quit()
