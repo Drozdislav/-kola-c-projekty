@@ -156,3 +156,56 @@ void swapNumbers(float *cislo1, float *cislo2)
     *cislo1 = *cislo2;
     *cislo2 = pomocna;
 }
+
+
+void quadraticEquationSolver(float a, float b, float c, float * x1, float * x2)
+{
+    float discr = (b*b) - (4 * a * c);
+
+    if(discr < 0)
+    {
+        printf("Discriminant is less than zero, equation has no result\n");
+        return;
+    }
+    else if(discr == 0)
+    {
+        *x1 = (-b)/(2*a);
+        printf("discriminant is zero, equation has one result: x1 = %2.f\n", &x1);
+        printf("result was put inside the x1 variable\n");
+    }
+    else
+    {
+        *x1 = ((-b) + sqrt(discr))/2*a;
+        *x2 = ((-b) - sqrt(discr))/2*a;
+        printf("discriminant is more zero, equation has two result: x1 = %.4f, x2 = %.4f\n", *x1, *x2);
+        printf("result was put inside the x1 and x2 variable\n");
+    }
+}
+
+
+int faktorialCisla(int cislo)
+{
+    int faktorial = 1;
+
+    for(int i = 1; i<cislo+1; i++)
+    {
+        faktorial = faktorial * i;
+    }
+    //printf("faktorial %d je %d\n", cislo, faktorial);
+    return faktorial;
+}
+
+
+void sumaFaktorialDelenoCislem(int cislo)
+{
+    int suma = 0;
+    int pom = 0;
+
+    for(int i = 1; i<cislo+1; i++)
+    {
+        pom = faktorialCisla(i);
+        suma = suma + (pom/i);
+    }
+    printf("Vysledek prikladu se scitanim a delenim faktorialu je: %d\n", suma);
+}
+
