@@ -1,8 +1,80 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 #include "duleziteFunkce.h"
 
+typedef struct
+{
+    int ypozice[8];
+    bool jevradku[8];
+    bool jesikmozleva[15];
+    bool jesikmozprava[15];
+} TSach;
+
+typedef struct TReseni {
+    int ypozice[8];       // Pole pro ulozeni pozic dam v jednotlivxch sloupcich
+    struct TReseni *next;  // Ukazatel na dalsi reseni v seznamu
+} TReseni;
+
+
+
+void testOsmiDam()
+{
+    TSach plocha =
+    {
+        .ypozice = {0},
+        .jevradku = {false},
+        .jesikmozleva = {false},
+        .jesikmozprava = {false},
+    };
+
+    zkusSloupec(&plocha, 0);
+
+
+}
+
+void zkusSloupec(TSach *plocha, int x)
+{
+    for (int y=0; y<7; y++)
+    {
+        if (!jeOhrozena(plocha, x, y))
+        {
+            polozDamu(plocha, x, y);
+
+            if(x == 7)
+                zapamatuj(plocha);
+            else
+                zkusSloupec(plocha, x + 1);
+
+            odeberDamu(plocha, x, y);
+        }
+    }
+}
+
+void polozDamu(TSach * plocha, int x, int y)
+{
+    plocha->ypozice[x] = y;
+    plocha->jevradku[y] = true;
+    plocha->jesikmozprava[x-y+7] = true;
+    plocha->jesikmozleva[x+y] = true;
+}
+
+bool jeOhrozena(TSach *plocha, int x, int y)
+{
+    if(plocha->jevradku[y] || plocha->jesikmozleva[x+y] || plocha->jesikmozprava[x-y+7])
+}
+
+void zapamatuj(TSach * plocha)
+{
+    //tady se budou vkladat spravna reseni do lin. seznamu
+}
+
+
+void odeberDamu(TSach *plocha, int x, int y)
+{
+
+}
 
 int main()
 {
@@ -11,7 +83,7 @@ int main()
     int x[1000];
     z10doBin(458, x, &pocetCifer);
     vypis1DpoleCISLA(x, pocetCifer);
-    **/
+
 
     float a = 10;
     float b = 20;
@@ -44,5 +116,6 @@ int main()
 
     sumaFaktorialDelenoCislem(5);
     faktorialCisla(5);
+    **/
     return 0;
 }
