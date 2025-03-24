@@ -17,21 +17,49 @@ typedef struct TReseni {
     struct TReseni *next;  // Ukazatel na dalsi reseni v seznamu
 } TReseni;
 
+TReseni *reseniHead = NULL;
 
-
-void testOsmiDam()
+void polozDamu(TSach * plocha, int x, int y)
 {
-    TSach plocha =
-    {
-        .ypozice = {0},
-        .jevradku = {false},
-        .jesikmozleva = {false},
-        .jesikmozprava = {false},
-    };
-
-    zkusSloupec(&plocha, 0);
+    plocha->ypozice[x] = y;
+    plocha->jevradku[y] = true;
+    plocha->jesikmozprava[x-y+7] = true;
+    plocha->jesikmozleva[x+y] = true;
+}
 
 
+void zapamatuj(TSach *plocha)
+{
+
+    TReseni *novyUzel = (TReseni *)malloc(sizeof(TReseni));
+    if (novyUzel == NULL) {
+        printf("Chyba alokace pamìti!\n");
+        return;
+    }
+
+    for (int i = 0; i < 8; i++) {
+        novyUzel->ypozice[i] = plocha->ypozice[i];
+    }
+
+    novyUzel->next = reseniHead;
+    reseniHead = novyUzel;
+}
+
+
+void odeberDamu(TSach *plocha, int x, int y)
+{
+    plocha->ypozice[x] = 0;
+    plocha->jevradku[y] = false;
+    plocha->jesikmozprava[x-y+7] = false;
+    plocha->jesikmozleva[x+y] = false;
+}
+
+bool jeOhrozena(TSach *plocha, int x, int y)
+{
+    if(plocha->jevradku[y] || plocha->jesikmozleva[x+y] || plocha->jesikmozprava[x-y+7])
+        return true;
+    else
+        return false;
 }
 
 void zkusSloupec(TSach *plocha, int x)
@@ -52,27 +80,48 @@ void zkusSloupec(TSach *plocha, int x)
     }
 }
 
-void polozDamu(TSach * plocha, int x, int y)
+void tiskReseniOsmiDam()
 {
-    plocha->ypozice[x] = y;
-    plocha->jevradku[y] = true;
-    plocha->jesikmozprava[x-y+7] = true;
-    plocha->jesikmozleva[x+y] = true;
+    /**
+    while(TReseni->next != NULL)
+    {
+        printf("_________________\n");
+        printf("|");
+        for(int i=0; i<8; i++)
+        {
+            if
+        }
+
+    }
+    **/
+    TReseni *aktualni = reseniHead;
+    int cisloReseni = 1;
+    while (aktualni)
+    {
+        printf("Reseni %d: ", cisloReseni++);
+        for (int i = 0; i < 8; i++)
+        {
+            printf("%d ", aktualni->ypozice[i]);
+        }
+        printf("\n");
+        aktualni = aktualni->next;
+    }
 }
 
-bool jeOhrozena(TSach *plocha, int x, int y)
+void testOsmiDam()
 {
-    if(plocha->jevradku[y] || plocha->jesikmozleva[x+y] || plocha->jesikmozprava[x-y+7])
-}
+    TSach plocha =
+    {
+        .ypozice = {0},
+        .jevradku = {false},
+        .jesikmozleva = {false},
+        .jesikmozprava = {false},
+    };
 
-void zapamatuj(TSach * plocha)
-{
-    //tady se budou vkladat spravna reseni do lin. seznamu
-}
+    zkusSloupec(&plocha, 0);
 
+    tiskReseniOsmiDam();
 
-void odeberDamu(TSach *plocha, int x, int y)
-{
 
 }
 
@@ -117,5 +166,6 @@ int main()
     sumaFaktorialDelenoCislem(5);
     faktorialCisla(5);
     **/
+    testOsmiDam();
     return 0;
 }
