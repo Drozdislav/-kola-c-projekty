@@ -17,15 +17,17 @@
 	<stdio.h>
 	<stdlib.h>
 
-1742329182 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.c
+1742933437 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.c
 	"duleziteFunkce.h"
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
 
-1742329180 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
+1742933437 c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
 	<stdio.h>
+	<stdbool.h>
 
-1742768863 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\main.c
+1742934419 source:c:\users\jakubson\desktop\skola\ivt\cprojekty\-kola-c-projekty\6g\osobniblbosti\main.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>

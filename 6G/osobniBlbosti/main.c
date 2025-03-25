@@ -4,6 +4,17 @@
 #include <stdbool.h>
 #include "duleziteFunkce.h"
 
+void toRoman(int cislo, char *romanCislo)
+{
+    int pocetM;
+
+    if(cislo == 1000)
+    {
+        pocetM = cislo / 1000;
+    }
+}
+
+
 
 int main()
 {
