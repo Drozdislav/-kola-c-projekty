@@ -37,11 +37,14 @@
 	<stdio.h>
 	<stdlib.h>
 
-1742736825 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
+1742896294 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
 	<stdio.h>
+	<stdbool.h>
 
-1742822847 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\main.c
+1742895620 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\main.c
 	<stdio.h>
 	<stdlib.h>
+	<math.h>
 	<stdbool.h>
+	"duleziteFunkce.h"
 

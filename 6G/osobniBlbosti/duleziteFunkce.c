@@ -1,11 +1,12 @@
 #include "duleziteFunkce.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 Tmatice * novaMatice(int r, int s) {
  Tmatice * matice = malloc(sizeof(Tmatice));
 
-  // Pokud se nepovedlo alokovat strukturu, vrátím NULL.
+  // Pokud se nepovedlo alokovat strukturu, vratim NULL.
   if (matice == NULL)
     return NULL;
 
@@ -27,12 +28,12 @@ int r,s;
     return NULL;
 
 
-  // Vyrobím pole.
+  // Vyrobim pole.
   Tmatice * m = novaMatice(r,s);
   if (m == NULL)
     return m;
 
-  // Ètu nanejvýš dimenze souøadnic.
+  // etu nanejvys dimenze souradnic.
   for (uint i = 0; i < m->radku; i++)
   {
       for(uint j=0; j< m->sloupcu; j++) {
@@ -90,7 +91,7 @@ return m3;
 
 }
 /*
-Vrátí zbytek po vydelení dvou ciswel
+Vrati zbytek po vydeleni dvou ciswel
 */
 int zbytekPoDeleni(int dividend, int divisor) {
     return dividend % divisor;  // Modulo operator returns the remainder
@@ -209,3 +210,134 @@ void sumaFaktorialDelenoCislem(int cislo)
     printf("Vysledek prikladu se scitanim a delenim faktorialu je: %d\n", suma);
 }
 
+//--------------------OSM DAM--------------------
+
+TReseni *reseniHead = NULL;
+
+void polozDamu(TSach *plocha, int x, int y)
+{
+    plocha->ypozice[x] = y;
+    plocha->jevradku[y] = true;
+    plocha->jesikmozprava[x - y + 7] = true;
+    plocha->jesikmozleva[x + y] = true;
+}
+
+void zapamatuj(TSach *plocha)
+{
+    TReseni *novyUzel = (TReseni *)malloc(sizeof(TReseni));
+    if (novyUzel == NULL) {
+        printf("Chyba alokace pamÄ›ti!\n");
+        return;
+    }
+
+    for (int i = 0; i < 8; i++) {
+        novyUzel->ypozice[i] = plocha->ypozice[i];
+    }
+
+    novyUzel->next = reseniHead;
+    reseniHead = novyUzel;
+}
+
+void odeberDamu(TSach *plocha, int x, int y)
+{
+    plocha->ypozice[x] = 0;
+    plocha->jevradku[y] = false;
+    plocha->jesikmozprava[x - y + 7] = false;
+    plocha->jesikmozleva[x + y] = false;
+}
+
+bool jeOhrozena(TSach *plocha, int x, int y)
+{
+    if (plocha->jevradku[y] || plocha->jesikmozleva[x + y] || plocha->jesikmozprava[x - y + 7])
+        return true;
+    else
+        return false;
+}
+
+void zkusSloupec(TSach *plocha, int x)
+{
+    for (int y = 0; y < 8; y++)
+    {
+        if (!jeOhrozena(plocha, x, y))
+        {
+            polozDamu(plocha, x, y);
+
+            if (x == 7)
+                zapamatuj(plocha);
+            else
+                zkusSloupec(plocha, x + 1);
+
+            odeberDamu(plocha, x, y);
+        }
+    }
+}
+
+void tiskReseniOsmiDam()
+{
+    int volba;
+    printf("-------------------- RESENI OSMI DAM --------------------\n");
+    printf("Zvol si, ktery styl reseni chces, aby ti program vytiskl:\n");
+    printf("Tisk reseni v ciselne forme.............................1\n");
+    printf("Tisk reseni v obrazkove forme...........................2\n");
+    scanf("%d", &volba);
+    switch (volba)
+    {
+        case 1:
+            printf("1. Tisk reseni v ciselne forme:\n");
+            TReseni *aktualni1 = reseniHead;
+            int cisloReseni1 = 1;
+            while (aktualni1)
+            {
+                printf("Reseni %d: ", cisloReseni1++);
+                for (int i = 0; i < 8; i++)
+                {
+                    printf("%d ", aktualni1->ypozice[i]);
+                }
+                printf("\n");
+                aktualni1 = aktualni1->next;
+            }
+        break;
+
+        case 2:
+            printf("2. Tisk reseni v obrazkove forme:\n");
+            TReseni *aktualni2 = reseniHead;
+            int cisloReseni2 = 1;
+            while (aktualni2)
+            {
+                printf("Reseni %d:\n", cisloReseni2++);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (aktualni2->ypozice[j] == i)
+                            printf("[o]");
+                        else
+                            printf("[ ]");
+                    }
+                    printf("\n");
+                }
+
+                printf("\n");
+                aktualni2 = aktualni2->next;
+            }
+            break;
+        default:
+            printf("Neplatna volba. Zadejte 1 nebo 2.\n");
+    }
+
+
+}
+
+void testOsmiDam()
+{
+    TSach plocha = {
+        .ypozice = {0},
+        .jevradku = {false},
+        .jesikmozleva = {false},
+        .jesikmozprava = {false},
+    };
+
+    zkusSloupec(&plocha, 0);
+    tiskReseniOsmiDam();
+}
