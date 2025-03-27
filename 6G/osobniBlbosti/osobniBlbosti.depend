@@ -34,10 +34,11 @@
 	<stdbool.h>
 	"duleziteFunkce.h"
 
-1742736825 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.c
+1742896207 source:c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.c
 	"duleziteFunkce.h"
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
 
 1742896294 c:\users\jakub\onedrive\desktop\škola\6g\-kola-c-projekty\6g\osobniblbosti\dulezitefunkce.h
 	<stdio.h>

@@ -1,20 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>  // Needed for strcat
 #include <math.h>
 #include <stdbool.h>
 #include "duleziteFunkce.h"
 
+#define MAXN 100  // Define max string size
+
 void toRoman(int cislo, char *romanCislo)
 {
-    int pocetM;
+    char *str_romans[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
 
-    if(cislo == 1000)
+    romanCislo[0] = '\0';  // Initialize as an empty string
+    int i = 0;
+
+    while (cislo > 0)
     {
-        pocetM = cislo / 1000;
+        while (cislo >= values[i])
+        {
+            strcat(romanCislo, str_romans[i]);  // Correct way to append strings
+            cislo -= values[i];
+        }
+        i++;
     }
 }
-
-
 
 int main()
 {
@@ -23,7 +33,6 @@ int main()
     int x[1000];
     z10doBin(458, x, &pocetCifer);
     vypis1DpoleCISLA(x, pocetCifer);
-
 
     float a = 10;
     float b = 20;
@@ -57,6 +66,12 @@ int main()
     sumaFaktorialDelenoCislem(5);
     faktorialCisla(5);
     **/
-    testOsmiDam();
+    //testOsmiDam();
+    char rimskeCislo[MAXN];
+    int cislicko = 1974;
+
+    toRoman(cislicko, rimskeCislo);
+    printf("Cislo %d na rimske cislice je: %s\n", cislicko, rimskeCislo);
+
     return 0;
 }
