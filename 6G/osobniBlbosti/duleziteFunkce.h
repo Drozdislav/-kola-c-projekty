@@ -85,4 +85,8 @@ void tiskReseniOsmiDam();
 /** \brief Spusti reseni problemu osmi dam a zobrazi vysledky */
 void testOsmiDam();
 
+void vypisFibonacci(int max, int predchozi, int kurentni);
+
+void toRoman(int cislo, char *romanCislo);
+
 #endif // MOJEMATICE_H_INCLUDED

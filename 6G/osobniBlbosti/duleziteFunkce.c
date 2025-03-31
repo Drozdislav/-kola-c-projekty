@@ -341,3 +341,35 @@ void testOsmiDam()
     zkusSloupec(&plocha, 0);
     tiskReseniOsmiDam();
 }
+
+void vypisFibonacci(int max, int predchozi, int kurentni)
+{
+    int pom = predchozi;
+    printf("%d\n", kurentni);
+    predchozi = kurentni;
+    kurentni = kurentni + pom;
+
+    if(kurentni < max)
+    {
+        vypisFibonacci(max,predchozi,kurentni);
+    }
+}
+
+void toRoman(int cislo, char *romanCislo)
+{
+    char *str_romans[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+
+    romanCislo[0] = '\0';  // Initialize as an empty string
+    int i = 0;
+
+    while (cislo > 0)
+    {
+        while (cislo >= values[i])
+        {
+            strcat(romanCislo, str_romans[i]);  // Correct way to append strings
+            cislo -= values[i];
+        }
+        i++;
+    }
+}

@@ -7,23 +7,22 @@
 
 #define MAXN 100  // Define max string size
 
-void toRoman(int cislo, char *romanCislo)
+int cifernySoucet(int zadani, int delitel, int vysledek)
 {
-    char *str_romans[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
 
-    romanCislo[0] = '\0';  // Initialize as an empty string
-    int i = 0;
-
-    while (cislo > 0)
+    int pom = zadani;
+    pom = pom / delitel;
+    if(pom == 0)
     {
-        while (cislo >= values[i])
-        {
-            strcat(romanCislo, str_romans[i]);  // Correct way to append strings
-            cislo -= values[i];
-        }
-        i++;
+        return vysledek;
     }
+    else
+    {
+        vysledek = vysledek + pom;
+        delitel = delitel * 10;
+        vysledek = cifernySoucet(zadani, delitel, vysledek);
+    }
+    return vysledek;
 }
 
 int main()
@@ -65,13 +64,17 @@ int main()
 
     sumaFaktorialDelenoCislem(5);
     faktorialCisla(5);
-    **/
+
     //testOsmiDam();
     char rimskeCislo[MAXN];
     int cislicko = 1974;
 
     toRoman(cislicko, rimskeCislo);
     printf("Cislo %d na rimske cislice je: %s\n", cislicko, rimskeCislo);
-
+**/
+    //vypisFibonacci(1000000,0,1);
+    int zadani = 123456;
+    int penis = cifernySoucet(zadani,1,0);
+    printf("ciferny soucet %d je %d",zadani,penis);
     return 0;
 }
