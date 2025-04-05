@@ -1,4 +1,11 @@
 @echo off
+echo ==========================
+echo   Welcome to Git Auto Push
+echo   by Jakub Drozd
+echo ==========================
+echo.
+echo Pushing latest changes...
+
 cd "C:\Users\jakubson\Desktop\skola\IVT\Cprojekty\-kola-c-projekty"
 
 REM Add all changes
