@@ -12,11 +12,12 @@ cd "C:\Users\jakubson\Desktop\skola\IVT\Cprojekty\-kola-c-projekty"
 REM Add all changes
 git add .
 
-REM Commit with a default message + timestamp
+REM Ask for commit message
+set /p name=What should the message of the commit be? 
+
+REM Commit with the user's message + timestamp
 set timestamp=%date% %time%
-read name
-echo What should the message of the commit be?
-git commit -m "name"
+git commit -m "%name% - %timestamp%"
 
 REM Push to the main branch
 git push
