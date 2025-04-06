@@ -8,7 +8,7 @@ echo Pushing latest changes...
 
 @echo off
 setlocal
-
+cd "C:\Users\jakubson\Desktop"
 :: Clean up the time string (remove leading space and colons)
 set timestamp=%date% %time%
 set timestamp=%timestamp: =0%
