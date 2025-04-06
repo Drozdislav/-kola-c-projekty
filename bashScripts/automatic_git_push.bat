@@ -19,8 +19,6 @@ echo Current date and time: %timestamp% > current_datetime.txt
 
 echo Written to current_datetime.txt: %timestamp%
 endlocal
-pause
-
 
 set timestamp=%date% %time%
 
@@ -35,5 +33,3 @@ git commit -m "Auto-commit on %timestamp%"
 
 REM Push to the main branch
 git push
-
-pause
