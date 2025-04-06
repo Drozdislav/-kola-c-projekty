@@ -23,7 +23,6 @@ pause
 
 
 set timestamp=%date% %time%
-mkdir %timestamp%
 
 cd "C:\Users\jakubson\Desktop\skola\IVT\Cprojekty\-kola-c-projekty"
 
