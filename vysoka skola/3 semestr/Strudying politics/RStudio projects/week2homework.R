@@ -47,9 +47,6 @@ assembly$Party[3]
 
 # Task 6: Fix the code ----------------------------------------------------
 
-
-
-
 mean(assembly$Seats) 
 #it did not work because seats does not exist only Seats exist, capital / small letters matter
 
@@ -62,3 +59,10 @@ decades <- seq(1990, 2020, by = 10)
 
 barplot(assembly$Seats, names.arg = assembly$Party)
 #the p was small so it did not show names because it was trying to see another vector which is empty
+
+
+# Task 7: Logical vectors and coercion ------------------------------------
+
+#i think it would combine in one character vector, automatically converting the numerical to characters (numbers can be characters but characters cannot be numbers)
+test <- c(assembly$Party, assembly$Seats)
+class(test)
