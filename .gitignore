@@ -10,3 +10,4 @@ __pycache__/
 
 # Ignore environment files (if using dotenv for credentials)
 .env
+.Rproj.user
