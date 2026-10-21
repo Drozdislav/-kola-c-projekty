@@ -1,0 +1,10 @@
+data analysis paper
+- choose depended variable - outcome
+- analayse the relationsip between depended and the 3 independent variable - 3 sections
+
+interesting variables - UNTDIREL, VIEWGFA3, LOYMURAL
+
+- one of independent must be demographic - sex, age, education
+- crosstabs, grsphs , CHISQ CRAMERV. CORELATION. T-TEST
+
+- describe what u find
